@@ -7,7 +7,6 @@ sidebar_position: 1
 UTXO Stack 是一系列扩展 Bitcoin 生态的 Layer-2 组件与协议。
 
 * RGB++
-* CKB
 * DA layer
 * App chain
 * Challenger
