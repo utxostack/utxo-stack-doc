@@ -4,7 +4,6 @@ sidebar_position: 2
 
 # UTXO Concepts
 
-* CKB
+* RGB++
 * Client side verification
 * Single used seal
-* RGB++
