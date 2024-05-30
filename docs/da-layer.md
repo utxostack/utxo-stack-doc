@@ -46,7 +46,17 @@ UTXO Stack DA layer 仅会保存过去一段时间的数据，因此存储成本
 
 ## Network protocol
 
-TODO
+DA layer 的数据通过 P2P 网络传输。完整的 Block 在 P2P 网络的传播时间对于 Miner 至关重要，随着 Block 传输时间的延长，出现叔块的概率会逐渐增加，Miner 的出块如果被其他 Block 取代则会损失出块奖励。
+
+我们在网络层应用一些优化协议。
+
+[BIP-152 Compacted block](https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki)
+
+Compacted block 是 Bitcoin relay 协议的一种优化策略，Bitcoin 节点会持续的同步内存池，在 Miner 出块时，实际上大部分的 Block 内容都已经在网络中同步，Miner 仅需传输与完整 block 相比非常小的 Compacted block 数据, Compacted block 包括 header, short ids (缩短后的交易 id) 等，其他节点在获取 Compacted block 后可以根据信息重建完整的 Block 或者去 P2P 网络中请求本地没有的部分交易。
+
+[Bittorrent tit-for-tat algorithm](https://en.wikipedia.org/wiki/Tit_for_tat#cite_note-10)
+
+DA node 持续对 Gossip 协议的 Peers 评分，评分基于 Gossip 消息的有效性，以及消息传输效率。节点在广播消息时节点会优先对高分的 Peers 传输数据。
 
 ## Transaction fee
 
