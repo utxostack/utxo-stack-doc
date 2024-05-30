@@ -10,7 +10,7 @@ UTXO stack DA layer 使用 Bitcoin POW merge mining 共识，与 Bitcoin POW 安
 
 ## Bitcoin merge mining
 
-TODO
+https://en.bitcoin.it/wiki/Merged_mining_specification
 
 ## The heaviest chain
 
