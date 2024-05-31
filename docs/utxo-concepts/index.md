@@ -7,3 +7,4 @@ sidebar_position: 2
 * RGB++
 * Client side verification
 * Single used seal
+* Light client
