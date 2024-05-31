@@ -23,31 +23,6 @@ App chain 采用 UTXO 扩展的 Cell 模型，与 RGB++ 同构。
 
 App chain, RGB++, Bitcoin 都采用 UTXO 类结构，我们利用 Single used seal，client side verification 等 UTXO 特有技术在保证安全性的情况下完成资产的跨链。
 
-## 资产跨链
-
-我们使用 XUDT 代表资产，资产合约部署在 RGB++ 上，所有的 App chain 资产 Cell 都引用同样的 XUDT 合约。
-因此一个 XUDT cell 在 RGB++ 以及所有 App chain 上是等价的。
-
-资产跨链转移时实际是将 cell 转移，同时完成 XUDT 资产的转移。
-
-我们借助 Single used seal 的概念来完成跨链资产转移。
-
-扩展 XUDT 协议，支持两个新操作:
-
-`CrossBurn(X, src_chain_id, dst_chain_id, out_point)`
-
-合约验证本次交易一定至少有 X amount token 被销毁了，src_chain_id 是当前所在的 chain 的 id，dst_chain_id 和 out_point 指定另一条链上的某个 out_point。
-
-
-`CrossMint(X, burn_tx)`
-
-合约验证 burn_tx 在 src_chain_id 上存在并且被确认(通过 App chain 轻节点验证)。
-合约验证 burn_tx.dst_chain_id 必须是当前链，并且当前交易 inputs 中必须包含 `CrossBurn` 中指定的 out_point, 本次交易允许 mint X amount token。
-
-如上，通过利用 Single used seal 的概念，我们支持了去中心化的 app chain 之间以及 app chain 与 RGB++ 的跨链操作。
-
-RGB++ 协议与 Bitcoin 的跨链操作详见 RGB++ 协议文档。
-
 ## 挑战模型
 
 App chain 的安全性基于挑战模式。
@@ -79,6 +54,45 @@ App chain 和 RGB++ 都使用结构一致的 cell 模型。
 
 因此只要提供 App chain tx 依赖的所有数据(cells 或者 block headers), App chain tx 是可以在 RGB++ 上验证的。
 我们可以利用 `ckb_spawn` 和 `ckb_exec` syscalls 构造一个安全的验证环境。
+
+## 资产跨链
+
+我们使用 XUDT 代表资产，资产合约部署在 RGB++ 上，所有的 App chain 资产 Cell 都引用同样的 XUDT 合约。
+因此一个 XUDT cell 在 RGB++ 以及所有 App chain 上是等价的。
+
+资产跨链转移时实际是将 cell 转移，同时完成 XUDT 资产的转移。
+
+我们借助 Single used seal 的概念来完成跨链资产转移。
+
+扩展 XUDT 协议，支持两个新操作:
+
+`CrossBurn(X, src_chain_id, dst_chain_id, out_point)`
+
+合约验证本次交易一定至少有 X amount token 被销毁了，src_chain_id 是当前所在的 chain 的 id，dst_chain_id 和 out_point 指定另一条链上的某个 out_point。
+
+
+`CrossMint(X, burn_tx)`
+
+合约验证 burn_tx 在 src_chain_id 上存在并且被确认(通过 App chain 轻节点验证)。
+合约验证 burn_tx.dst_chain_id 必须是当前链，并且当前交易 inputs 中必须包含 `CrossBurn` 中指定的 out_point, 本次交易允许 mint X amount token。
+
+如上，通过利用 Single used seal 的概念，我们支持了去中心化的 app chain 之间以及 app chain 与 RGB++ 的跨链操作。
+
+RGB++ 协议与 Bitcoin 的跨链操作详见 RGB++ 协议文档。
+
+### Trustless withdrawal
+
+结合 RGB++ 的 client side verification (CSV) 机制, 用户可以提供 Challenge period 之内的 CSV proof 来证明对资产所有权。
+我们扩展 XUDT 增加一个新的方法，通过验证 CSV proof 进行资产 mint。
+
+`CSVMint(X, chain_id, csv_proof)`
+
+`CSVMint` 验证链的状态以及 CSV proof, 如果通过验证则直接在 RGB++ 层取出资产，并更新链的状态记录资产已被 mint。
+
+`CSVMint` 仅需要正确的 CSV proof, 这意味着即使在 app chain 被攻击时，用户仍然可以从 DA layer 获取完整的 CSV proof 并在 RGB++ 层安全取回资产。
+
+`CSVMint` 也可以用做快速退出，这种方式提取资产不用等待 Challenge Period 即可完成。
+
 
 ## 涉及的 RGB++ 合约
 
