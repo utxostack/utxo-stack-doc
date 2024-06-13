@@ -80,20 +80,6 @@ App chain 和 RGB++ 都使用结构一致的 cell 模型。
 
 RGB++ 协议与 Bitcoin 的跨链操作详见 RGB++ 协议文档。
 
-### Trustless withdrawal
-
-结合 RGB++ 的 client side verification (CSV) 机制, 用户可以提供 Challenge period 之内的 CSV proof 来证明对资产所有权。
-我们扩展 XUDT 增加一个新的方法，通过验证 CSV proof 进行资产 mint。
-
-`CSVMint(X, chain_id, csv_proof)`
-
-`CSVMint` 验证链的状态以及 CSV proof, 如果通过验证则直接在 RGB++ 层取出资产，并更新链的状态记录资产已被 mint。
-
-`CSVMint` 仅需要正确的 CSV proof, 这意味着即使在 app chain 被攻击时，用户仍然可以从 DA layer 获取完整的 CSV proof 并在 RGB++ 层安全取回资产。
-
-`CSVMint` 也可以用做快速退出，这种方式提取资产不用等待 Challenge Period 即可完成。
-
-
 ## 涉及的 RGB++ 合约
 
 * App chain 选举合约
