@@ -66,15 +66,15 @@ App chain 和 RGB++ 都使用结构一致的 cell 模型。
 
 扩展 XUDT 协议，支持两个新操作:
 
-`CrossBurn(X, src_chain_id, dst_chain_id, out_point)`
+`CSVBurn(X, src_chain_id, dst_chain_id, out_point)`
 
 合约验证本次交易一定至少有 X amount token 被销毁了，src_chain_id 是当前所在的 chain 的 id，dst_chain_id 和 out_point 指定另一条链上的某个 out_point。
 
 
-`CrossMint(X, burn_tx)`
+`CSVMint(X, burn_tx)`
 
 合约验证 burn_tx 在 src_chain_id 上存在并且被确认(通过 App chain 轻节点验证)。
-合约验证 burn_tx.dst_chain_id 必须是当前链，并且当前交易 inputs 中必须包含 `CrossBurn` 中指定的 out_point, 本次交易允许 mint X amount token。
+合约验证 burn_tx.dst_chain_id 必须是当前链，并且当前交易 inputs 中必须包含 `CSVBurn` 中指定的 out_point, 本次交易允许 mint X amount token。
 
 如上，通过利用 Single used seal 的概念，我们支持了去中心化的 app chain 之间以及 app chain 与 RGB++ 的跨链操作。
 
