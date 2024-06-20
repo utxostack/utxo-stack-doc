@@ -1,3 +1,8 @@
+---
+sidebar_position: 5
+sidebar_label: uBTC
+---
+
 # uBTC, Trustless Bitcoin Peg for Layer 2s
 
 uBTC 是一种去信任、去中心化的双向锚定 Bitcoin 资产协议。它运行在 RGB++ 协议层，具有以下特点
@@ -34,10 +39,12 @@ uBTC 的资产安全由 RGB++ 协议层的合约保障。PR 的任何恶意行�
 
 - 用户存入 BTC 后，PR 拒绝铸造 uBTC
   - 用户可以利用 SPV 证明自行铸造，不依赖 PR
-- PR 不打包用户的 uBTC 的销毁交易
-  - 用户可以在 RGB++ 上直接证明自己拥有哪些 uBTC UTXO 并要求销毁退出，PR 需要在一定时间内响应，否则会罚没押金
 - PR 不响应用户的出金请求
   - 用户等待 7 天后仍然没有收到出金交易，则可以在 RGB++ 上要求罚没 PR 押金
   - 通过提供 btc spv 证明与挑战，可以证明链上是否存在出金交易
 - PR 联合作恶，恶意出金
   - 即出金没有对应到合法的 uBTC UTXO，挑战者可以在 RGB++ 上清算 PR 押金，为受损用户提供赔偿
+
+## 快速退出
+
+uBTC 从 RGB++ 层可以快速退出到 BTC。但如果它从 L2 退出到 RGB++/BTC 的话，需要经过 L2 较长的挑战期。这种情况下，我们可以采用 HTLC 的方式让 uBTC 持有人花费小额手续费快速退出。
