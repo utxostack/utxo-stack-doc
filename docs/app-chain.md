@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # App Chain
 
-App chain 是实际运行智能合约的 layer-2 chain。特点是高 TPS，较少的出块节点，以及基于挑战的安全模型。
+App chain 是实际运行智能合约的 layer-2 chain。特点是高 TPS，低手续费，较少的出块节点，以及基于挑战的安全模型。
 
 ## 质押选举
 
@@ -19,9 +19,16 @@ App chain 由多个 Validators 采用 PBFT 类共识出块，多方共同出块�
 
 ## UTXO 同构
 
+### Cell 模型
+
 App chain 采用 UTXO 扩展的 Cell 模型，与 RGB++ 同构。
 
 App chain, RGB++, Bitcoin 都采用 UTXO 类结构，我们利用 Single used seal，client side verification 等 UTXO 特有技术在保证安全性的情况下完成资产的跨链。
+### 图灵完备的 VM
+
+App chain 采用与 RGB++ 同样的基于RISC-V、图灵完备的虚拟机（VM），这使得它能够执行任意复杂逻辑，且兼容 RGB++ 的智能合约。
+
+兼容 RGB++ 开发工具链，理论上任何提供了 RISC-V 后端的语言均可用来开发 App chain 合约。
 
 ## 挑战模型
 
@@ -85,4 +92,8 @@ RGB++ 协议与 Bitcoin 的跨链操作详见 RGB++ 协议文档。
 * App chain 选举合约
 * App chain 轻节点合约
 * DA layer 验证合约
-* XUDT 合约
+* 扩展的 XUDT 合约
+
+## 定制 App chain
+
+App chain可配置跨链资产作为手续费币种。例如对于 Bitcoin 扩容场景，使用 BTC 资产作为交易手续费币种，能带来更一致的用户体验。
