@@ -20,7 +20,7 @@ Elections are held for each App chain epoch, and the newly elected validators wi
 
 ### Cell Model
 
-App chain employs an extended UTXO Cell model that is isomorphic to RGB++.
+App chain employs an extended UTXO Cell model that is isomorphic to RGB++ compatible chains.
 
 Given that App chain, RGB++, and Bitcoin all use UTXO-like structures, we utilize UTXO-specific technologies like Single-use seals and Client-side verification to securely enable cross-chain asset transfers.
 
