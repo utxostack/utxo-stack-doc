@@ -1,51 +1,56 @@
 ---
 sidebar_position: 4
+title: DA Layer
 ---
 
-# UTXO stack DA layer
+# UTXO Stack Data Availability Layer
 
-UTXO stack DA layer 使用轻节点 data sampling 解决 data availability 问题。
+A Data Availability (DA) layer provides a mechanism for the execution and settlement layers to check in a trust-minimized way whether app chains' transaction data is indeed available.
 
-UTXO stack 及 RGB++ 提供了 DA 攻击时的退出方案，详见 DA exit 文档。因此资产安全性并不依赖于 DA layer 安全性，但使用 DA layer 仍然有很多好处:
+The UTXO Stack DA layer uses a light client data sampling approach to solve the data availability problem. Therefor Light clients are able to know whether the data is actually available. Because if they know that the data is available, they know there will likely be a honest full node who has seen and checked it, and will broadcast a fraud proof if it’s incorrect/fraudulent.
 
-1. 提升做恶成本，攻击者必须同时攻击 DA layer 以及 App chain 才可以操作资产
-2. 降低挑战成本，DA layer 支持通过轻节点获取数据以及 Data sampling 检查数据合法性，使运行挑战节点的成本更低
-3. 集中 Staking, DA layer 的 Staking 相比分散开的 App chain 会更加集中，增加 DA layer 共识的安全性
+UTXO Stack and RGB++ provide an exit strategy in case of a DA attack, as detailed in the [DA exit](./da-exit.md) documentation. Although the asset security does not depend solely on the security of the DA layer, using the DA layer still has some advantages:
+
+1. **Increases the cost of malicious attacks:** Attackers must simultaneously attack the DA layer and the app chain to manipulate assets.
+
+2. **Reduces the cost of challenges:** The DA layer supports data retrieval through light clients and data availability sampling (DAS), which significantly lowers the cost of running a challenge node. This approach not only makes it more economical to maintain challenge nodes but also enhances the overall security and reliability of the network by making it easier for more participants to engage in the challenge process.
+
+3. **Concentrates staking:** All app chains's staked value comes from the DA layer. The combined staking value from all App Chains contributes to the security of the DA layer, creating a more robust and resilient system.
+
 
 ## DA chain
 
 ### Header
 
-DA chain 使用和 App chain 类似的架构，在原有结构上扩展了共识机制以及 P2P 网络等协议来支持 DA layer 的功能。
+The DA chain uses a similar architecture to the App Chain, but extends the consensus mechanism and P2P network protocols to support the DA layer functionality.
 
-DA chain 的 Block 结构与 App chain 保持一致。但是 `tx_root` 字段含义有新的变化，DA chain 中我们计算 `merkle_hash(tx_root, tx_blob_root)` 作为新的 `da_tx_root`
+The DA chain's block structure is consistent with the App Chain. However, the meaning of the `tx_root` field has changed. In the DA chain, the system calculates `merkle_hash(tx_root, tx_blob_root)` as the new da_tx_root. This modification allows the DA chain to incorporate both transaction data and blob data into a single Merkle root, ensuring efficient verification of both types of data within the block structure.
 
-``` rust
-// App chain
-
+```rust
+// app chain
 let tx_root = merkle_hash(txs);
 
 // DA chain
-
 let tx_root = merkle_hash(txs);
 let tx_blob_root = merkle_hash(txs.map(|tx| merkle_hash(tx.blobs)))
 let da_tx_root = merkle_hash([tx_root, tx_blob_root]);
 ```
 
-我们扩展 P2P message protocol 在传输 Block 时额外广播 Block 包含的 Blobs 列表, DA chain 的 Validator 必须等到接收到完整 Block 以及完整的 Blobs 后，再去验证 `da_tx_root`。如果没问题再继续验证并签名。
-
+The P2P message protocol is extended to additionally broadcast the list of Blobs contained in the Block when transmitting the Block. `DA chain validators` must wait to receive the complete Block and the complete Blobs before verifying the da_tx_root. If everything is valid, they can then continue to verify and sign the block.
 
 ### Submit Data
 
-DA chain 在 Genesis 内置一个 Dummy Type ID - Data Store，该合约用来标记交易是否提交 Blobs。Data Store 规则由共识验证。
+The DA chain has a built-in `Dummy Type ID - Data Store` in the Genesis, which is used to mark whether a transaction has submitted Blobs. The Data Store rules are verified by the consensus.
 
-交易如果提交数据，那么第一个 output Type ID 必须使用 Data Store, 且 output 的 data 字段必须为 32 bytes 的 `merkle_hash(blobs)`。Validator 收集到 Block 中提交的完整的 blobs 后会检查每个交易的 `blob_root` 以及 `da_tx_root` 是否合法，如果不合法则拒绝该块。
+If a DA chain transaction submits data, the first output's type_script must use the Data Store contract, and the output's cell data field must be the 32-byte `merkle_hash(blobs)`.
 
-用户提交 Blob 时使用 `submit_tx_with_blobs` 接口，除了提供 UTXO stack tx 外，用户需要额外提供 Blobs 列表。Validator 收到交易后检查 Blobs 提交信息是否与交易中一致，如果一致则广播交易与 Blobs。
+App chain consensus nodes utilize the `submit_tx_with_blobs` interface when submitting chain data (e.g. app chain transactions), along with the blobs list. The DA validators will check if the Blobs submission information is consistent with the related transaction, and if so, they will broadcast the transaction and Blobs.
 
-Blob 结构如下:
+DA validators thoroughly verify each block by calculating the `blob_root` for each transaction and comparing it to the `da_tx_root`. If any discrepancies are found, the block is rejected.
 
-``` rust
+The Blob structure is as follows:
+
+```rust
 pub struct Blob {
     version: u32,
     data: Bytes,
@@ -59,29 +64,32 @@ pub struct TxWithBlob {
 
 ### DA proof
 
-在提交的交易打包后，用户可以通过 Block header 中的 `da_tx_root` 提供 Merkle Proof。证明某个 blob 被提交。
+After a DA chain transaction is packaged, app chain nodes can provide a Merkle proof based on the `da_tx_root` in a block header to cryptographically prove that a specific blob has been submitted to the DA chain:
 
-证明 Layer2 App chain 数据已经被提交到 DA chain:
-
-1. App chain header 中需要保存提交数据的 blobs merkle root - `da_blobs_root`
-2. 等待 DA chain 打包 Blobs，获取 DA chain 的 header 以及 `da_blobs_root` 的 Merkle Proof
-3. 在 RGB++ 合约中通过 DA chain 轻节点验证 Merkle Proof，如果通过验证则证明 App chain Block 已经被提交到 DA layer
+1. The app chain block header must save the Merkle root of the submitted blobs - `da_blobs_root`.
+2. After the DA Chain has packaged the blobs, one can obtain the DA chain block header and the Merkle proof for the da_blobs_root.
+3. An on-chain DA light client on CKB can be invoked to verify the Merkle Proof, to prove that the app chain data has been submitted to the DA layer.
 
 ## Pruning
 
-开启 Pruning 的节点会定期删除 Block 以及 Blobs 数据，只保留 Header。节点可以设置为 Archive 模式保存完整数据。
+DA chain Nodes with pruning enabled will periodically delete block and blob data, keeping only the block headers. This saves significant disk space.
+Nodes can be set to "archive mode" to save the complete data if needed.
 
-## Data sampling
+## Data availability sampling
 
-DA chain 节点使用 Reed-Solomon erasure coding 存储 Blobs 数据。DA 节点将 Block 数据以及 Blobs 分成多个 shares, 并通过 2D Reed-Solomon Encoded Merkle tree 将 shares 编入 2D 的矩阵结构中，通过这种方式我们可以得到 dataRoot 以及 2D 矩阵中每个行和列的 Root。
+Data availability sampling (DAS) is a crucial technique used by the DA chain to ensure the availability and retrievability of block data and blobs.
+
+DA chain nodes use Reed-Solomon erasure coding to split the block data and blobs into multiple shares. They then organize these shares into a 2D matrix structure using a 2D Reed-Solomon Encoded Merkle tree. This allows them to obtain the dataRoot and the Merkle roots of each row and column in the 2D matrix.
 
 ![2D Reed-Solomon Encoded Merkle tree](/img/da-layer/2D-Reed-Solomon-Encoded-Merkle-tree.jpeg)
-
-轻节点随机的选择一组坐标向全节点查询 shares, 如果全节点返回合法的 shares 那么我们认为大概率数据没有丢失。轻节点持续请求全节点并通过 P2P gossip 协议传播 shares，如果网络中轻节点数量足够大，那么诚实的全节点可以从 P2P 网络中获取足够恢复完整信息的 shares。
-
 [original paper](https://arxiv.org/abs/1809.09044)
 
-## 参考
+The DA chain light clients randomly select a set of coordinates to query shares from full nodes. If the full nodes return valid shares, it indicates that the data is most likely available. They continuously request shares from the DA chain full nodes and propagate them through the P2P gossip protocol.
+
+As a result, honest nodes can also obtain enough shares (i.e., at least 𝑘×𝑘 unique shares) from the P2P network to recover the complete data.
+
+## References
 
 * [Fraud and Data Availability Proofs: Maximising Light Client Security and Scaling Blockchains with Dishonest Majorities](https://arxiv.org/abs/1809.09044)
 * [Celestia's data availability layer](https://docs.celestia.org/learn/how-celestia-works/data-availability-layer)
+* [Data availability checks using erasure codes](https://dankradfeist.de/ethereum/2019/12/20/data-availability-checks.html)
