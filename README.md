@@ -1,6 +1,10 @@
-# Website
+# Documentation for [UTXO Stack](https://www.utxostack.network/)
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This repository maintains documentation for [UTXO Stack](https://www.utxostack.network/), a native programmability and scalability Layer 2 solution for Bitcoin ecosystem.
+
+## Contributing
+
+The docs site is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 ### Installation
 
