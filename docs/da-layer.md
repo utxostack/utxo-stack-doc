@@ -38,7 +38,7 @@ let da_tx_root = merkle_hash([tx_root, tx_blob_root]);
 
 The P2P message protocol is extended to additionally broadcast the list of Blobs contained in the Block when transmitting the Block. `DA chain validators` must wait to receive the complete Block and the complete Blobs before verifying the da_tx_root. If everything is valid, they can then continue to verify and sign the block.
 
-### Submit Data
+### Submit data
 
 The DA chain has a built-in `Dummy Type ID - Data Store` in the Genesis, which is used to mark whether a transaction has submitted Blobs. The Data Store rules are verified by the consensus.
 
@@ -79,10 +79,12 @@ Nodes can be set to "archive mode" to save the complete data if needed.
 
 Data availability sampling (DAS) is a crucial technique used by the DA chain to ensure the availability and retrievability of block data and blobs.
 
-DA chain nodes use Reed-Solomon erasure coding to split the block data and blobs into multiple shares. They then organize these shares into a 2D matrix structure using a 2D Reed-Solomon Encoded Merkle tree. This allows them to obtain the dataRoot and the Merkle roots of each row and column in the 2D matrix.
+DA chain nodes use Reed-Solomon erasure coding to split the block data and blobs into multiple shares. They then organize these shares into a 2D matrix structure using a `2D Reed-Solomon Encoded Merkle tree`. This allows them to obtain the dataRoot and the Merkle roots of each row and column in the 2D matrix.
 
-![2D Reed-Solomon Encoded Merkle tree](/img/da-layer/2D-Reed-Solomon-Encoded-Merkle-tree.jpeg)
-[original paper](https://arxiv.org/abs/1809.09044)
+<figure align="center">
+  <img src="/img/da-layer/2D-Reed-Solomon-Encoded-Merkle-tree.jpeg" alt="2D Reed-Solomon Encoded Merkle tree" />
+  <figcaption align="center">[original paper](https://arxiv.org/abs/1809.09044)</figcaption>
+</figure> 
 
 The DA chain light clients randomly select a set of coordinates to query shares from full nodes. If the full nodes return valid shares, it indicates that the data is most likely available. They continuously request shares from the DA chain full nodes and propagate them through the P2P gossip protocol.
 
