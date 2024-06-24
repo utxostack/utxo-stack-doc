@@ -16,7 +16,7 @@ Node operators can participate in elections by staking assets and submitting the
 
 Elections are held for each App chain epoch, and the newly elected validators will produce blocks during the epoch.
 
-## UTXO Isomorphic
+## UTXO Isomorphism
 
 ### Cell Model
 
