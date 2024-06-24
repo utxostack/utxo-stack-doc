@@ -12,7 +12,7 @@ The App chain uses multiple validators to produce blocks using a PBFT-like conse
 
 A Proof of Work (POW) chain is introduced simultaneously as a consensus component. Each App chain needs to deploy an election contract on the RGB++ compatible PoW chain. The current validators of the App chain are determined by the election contract. By incorporating the PoW chain, [long-range attacks](https://en.wikipedia.org/wiki/Proof_of_stake#Long-range_attacks) and censorship attacks that are common in Proof of Stake (POS) systems can be avoided.
 
-Node operators can participate in elections by staking assets and submitting them to the election contract on RGB++. Regular users can also vote for operators by staking their assets to help with the election and earn certain rewards.
+Node operators can participate in elections by staking assets and submitting them to the election contract on the RGB++ supported platform. Regular users can also vote for operators by staking their assets to help with the election and earn certain rewards.
 
 Elections are held for each App chain epoch, and the newly elected validators will produce blocks during the epoch.
 
