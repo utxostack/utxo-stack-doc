@@ -10,7 +10,7 @@ An App chain is a Layer-2 chain that actually runs smart contracts. It is charac
 
 The App chain uses multiple validators to produce blocks using a PBFT-like consensus mechanism. This multi-party block production can reduces  censorship attacks and collusion by nodes.
 
-We also introduce a PoW chain as part of the consensus. Each App chain needs to deploy an election contract on RGB++. The current validators of the App chain are determined by the election contract. By incorporating the PoW chain, we can avoid issues such as [long-range attacks](https://en.wikipedia.org/wiki/Proof_of_stake#Long-range_attacks) and censorship attacks that exist in PoS systems.
+A Proof of Work (POW) chain is introduced simultaneously as a consensus component. Each App chain needs to deploy an election contract on the RGB++ compatible PoW chain. The current validators of the App chain are determined by the election contract. By incorporating the PoW chain, [long-range attacks](https://en.wikipedia.org/wiki/Proof_of_stake#Long-range_attacks) and censorship attacks that are common in Proof of Stake (POS) systems can be avoided.
 
 Node operators can participate in elections by staking assets and submitting them to the election contract on RGB++. Regular users can also vote for operators by staking their assets to help with the election and earn certain rewards.
 
