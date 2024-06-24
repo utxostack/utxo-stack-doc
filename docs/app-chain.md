@@ -22,7 +22,7 @@ Elections are held for each App chain epoch, and the newly elected validators wi
 
 App chain employs an extended UTXO Cell model that is isomorphic to RGB++ compatible chains.
 
-Given that App chain, RGB++, and Bitcoin all use UTXO-like structures, we utilize UTXO-specific technologies like Single-use seals and Client-side verification to securely enable cross-chain asset transfers.
+App chain, RGB++ compatible chains, and Bitcoin all use UTXO-like structures. By utilizing UTXO-specific technologies like single-use seals and client-side verification (CSV), the assets can be cross-chained while ensuring security.
 
 ### Turing-complete VM
 
