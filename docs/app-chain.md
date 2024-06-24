@@ -8,7 +8,7 @@ An App chain is a Layer-2 chain that actually runs smart contracts. It is charac
 
 ## Staking and Election
 
-The App chain uses multiple validators to produce blocks using a PBFT-like consensus mechanism. This multi-party block production can reduces  censorship attacks and collusion by nodes.
+The App chain uses multiple validators to produce blocks using a PBFT-like consensus mechanism. This multi-party block production can reduces censorship attacks and collusion by nodes.
 
 A Proof of Work (POW) chain is introduced simultaneously as a consensus component. Each App chain needs to deploy an election contract on the RGB++ compatible PoW chain. The current validators of the App chain are determined by the election contract. By incorporating the PoW chain, [long-range attacks](https://en.wikipedia.org/wiki/Proof_of_stake#Long-range_attacks) and censorship attacks that are common in Proof of Stake (POS) systems can be avoided.
 
