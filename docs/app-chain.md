@@ -26,7 +26,7 @@ Given that App chain, RGB++, and Bitcoin all use UTXO-like structures, we utiliz
 
 ### Turing-complete VM
 
-The App chain employs the same Turing-complete virtual machine (VM) based on RISC-V as RGB++. This enables the execution of arbitrary complex logic and compatibility with RGB++ smart contracts.
+The App chain employs the same Turing-complete virtual machine (VM) based on RISC-V. This enables the execution of arbitrary complex logic and compatibility with RGB++ smart contracts.
 
 The App chain is compatible with the RGB++ development toolchain, theoretically allowing any language that provides a RISC-V backend to develop App chain contracts.
 
