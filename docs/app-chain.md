@@ -88,7 +88,8 @@ For cross-chain operations between RGB++ protocol and Bitcoin, refer to the [RGB
 * App chain election contract
 * App chain light client contract
 * DA layer verification contract
-* Extended XUDT contract
+* Extended xUDT contract
+* App chain challenge contract
 
 ## Customizing App Chains
 
