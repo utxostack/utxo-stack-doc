@@ -79,7 +79,7 @@ The contract verifies that at least X amount of tokens are burned in this transa
 
 The contract verifies that `burn_tx` exists and is confirmed on `src_chain_id` (through App chain light client verification). The contract verifies that `burn_tx.dst_chain_id` must be the current chain, and the inputs of the current transaction must include the `out_point` specified in `CSVBurn`. This transaction allows minting X amount of tokens.
 
-As described, using the concept of Single-use seals, we support decentralized cross-chain operations between App chains and between App chains and RGB++.
+As described, using the concept of single-use seals, the system supports decentralized cross-chain operations between app chains and RGB++ supported chains.
 
 For cross-chain operations between Bitcoin and RGB++ compatible chains, please refer to the [RGB++ protocol](https://github.com/ckb-cell/RGBPlusPlus-design) documentation.
 
