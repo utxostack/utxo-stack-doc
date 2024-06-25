@@ -34,7 +34,7 @@ The App chain contract is executed in a scripting VM based on the open source RI
 
 The security of the App chain is based on a challenge model.
 
-We assume that if an invalid block is produced, a Challenger can discover the invalid block and submit a challenge proof to the RGB++ contract within the Challenge period.
+If an invalid block is produced, a challenger can discover the invalid block and submit a challenge proof to the challenge contract on a bound RGB++ compatible PoW chain within one challenge period.
 
 To implement the challenge mechanism, we must ensure:
 
