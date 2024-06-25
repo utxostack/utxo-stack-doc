@@ -36,7 +36,7 @@ The security of the App chain is based on a challenge model.
 
 If an invalid block is produced, a challenger can discover the invalid block and submit a challenge proof to the challenge contract on a bound RGB++ compatible PoW chain within one challenge period.
 
-To implement the challenge mechanism, we must ensure:
+To implement the challenge mechanism, the following must be ensured:
 
     1. The Challenger can obtain the complete data of blocks produced by the validators within the challenge period.
     2. The RGB++ contract can verify App chain transactions.
