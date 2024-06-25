@@ -51,7 +51,7 @@ After an app chain block is produced, the app chain validator must submit the co
 
 The App chain block is considered confirmed only after completing the above submissions. If a validator fails to update the light client contract for a prolonged period, the election contract will penalize the validator's staking and initiate a re-election process.
 
-When submitting a header, the DA layer verification contract checks the DA proof to ensure that the complete block has been stored in the DA layer for no less than the Challenge Period.
+When submitting a header, the DA layer verification contract checks the DA proof to ensure that the entire block has been stored in the DA layer for at least one challenge Period.
 
 Challengers can extract the complete block from the DA layer and generate challenge proofs when necessary.
 
