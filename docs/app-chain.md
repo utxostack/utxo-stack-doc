@@ -81,7 +81,7 @@ The contract verifies that `burn_tx` exists and is confirmed on `src_chain_id` (
 
 As described, using the concept of Single-use seals, we support decentralized cross-chain operations between App chains and between App chains and RGB++.
 
-For cross-chain operations between RGB++ protocol and Bitcoin, refer to the [RGB++ protocol](https://github.com/ckb-cell/RGBPlusPlus-design) documentation.
+For cross-chain operations between Bitcoin and RGB++ compatible chains, please refer to the [RGB++ protocol](https://github.com/ckb-cell/RGBPlusPlus-design) documentation.
 
 ## Relevant RGB++ Contracts
 
