@@ -93,4 +93,4 @@ For cross-chain operations between RGB++ protocol and Bitcoin, refer to the [RGB
 
 ## Customizing App Chains
 
-The App chain can be configured to allow cross-chain assets for paying transaction fees. For example, in a Bitcoin scaling scenario, using BTC assets to pay transaction fees can provide a more consistent user experience.
+The app chain can be configured to allow cross-chain assets to be used as transaction fees. For example, in a BTC scaling scenario, using Bitcoin as transaction fee can provide a consistent user experience.
