@@ -38,7 +38,7 @@ If an invalid block is produced, a challenger can discover the invalid block and
 
 To implement the challenge mechanism, the following must be ensured:
 
-    1. The Challenger can obtain the complete data of blocks produced by the validators within the challenge period.
+    1. The Challenger can obtain the complete data of blocks produced by the app chain validators within one challenge period.
     2. The challenge contract can verify App chain transactions.
 
 ### Data Availability (DA) Issue
