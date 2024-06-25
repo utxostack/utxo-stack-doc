@@ -65,7 +65,7 @@ For example, the `ckb_spawn` and `ckb_exec` syscalls can be used to construct a 
 
 ## Cross-chain Asset Transfer
 
-We use XUDT to represent assets, with the asset contract deployed on RGB++. All App chain asset cells refer to the same XUDT contract. Hence, an XUDT cell on RGB++ and all App chains is equivalent.
+[xUDT](https://github.com/nervosnetwork/rfcs/pull/428) is used to represent assets, with the asset contract deployed on a bound RGB++ compatible PoW chain. All App chain asset cells refer to the same xUDT contract. Hence, an xUDT cell on RGB++ compatible chains is equivalent.
 
 Cross-chain asset transfer involves transferring the cell and completing the XUDT asset transfer.
 
