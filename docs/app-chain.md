@@ -57,7 +57,7 @@ Challengers can extract the complete block from the DA layer and generate challe
 
 ### Transaction Verification
 
-The App chain and RGB++ use the same cell model structure.
+The App chain and the RGB++ compatible chains use the same cell model structure.
 
 Therefore, as long as all data (cells or block headers) that the App chain transaction depends on are provided, the App chain transaction can be verified on RGB++. We can use the `ckb_spawn` and `ckb_exec` syscalls to construct a secure verification environment.
 
