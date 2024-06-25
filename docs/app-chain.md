@@ -47,7 +47,7 @@ A [DA layer](./da-layer.md) is introduced to address the Data Availability (DA) 
 
 On every RGB++ compatible chain, an App chain light client contract is maintained. This contract records all App chain headers.
 
-After an App chain produces a block, the validator must submit the complete block to the DA layer and obtain a DA proof. Then, the block header and DA proof are submitted to the RGB++ light client contract to update the state.
+After an app chain block is produced, the app chain validator must submit the complete block to the DA layer and obtain a DA proof. Then, the block header and DA proof should be submitted to the light client contract to update the app chain state recorded on the bound PoW chain.
 
 The App chain block is considered confirmed only after completing the above submissions. If a validator fails to update the light client contract for a prolonged period, the election contract will penalize the validator's staking and initiate a re-election process.
 
