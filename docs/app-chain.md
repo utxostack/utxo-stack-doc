@@ -69,7 +69,7 @@ Cross-chain asset transfer involves transferring the cell and completing the XUD
 
 We use the concept of Single-use seals to achieve cross-chain asset transfers.
 
-The extended XUDT protocol supports two new operations:
+Two new operations are added to the current xUDT protocol:
 
 `CSVBurn(X, src_chain_id, dst_chain_id, out_point)`
 
