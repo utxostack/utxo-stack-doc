@@ -45,7 +45,7 @@ To implement the challenge mechanism, the following must be ensured:
 
 A [DA layer](./da-layer.md) is introduced to address the Data Availability (DA) issue.
 
-On RGB++, an App chain light client contract is maintained. This contract records all App chain headers.
+On every RGB++ compatible chain, an App chain light client contract is maintained. This contract records all App chain headers.
 
 After an App chain produces a block, the validator must submit the complete block to the DA layer and obtain a DA proof. Then, the block header and DA proof are submitted to the RGB++ light client contract to update the state.
 
