@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Branch Chain
 
-An Branch chain is a Layer-2 chain that actually runs smart contracts. It is characterized by high TPS (Transactions Per Second), low fees, fewer block-producing nodes, and a challenge-based security model.
+A Branch chain is a Layer-2 chain that actually runs smart contracts. It is characterized by high TPS (Transactions Per Second), low fees, fewer block-producing nodes, and a challenge-based security model.
 
 ## Staking and Election
 
