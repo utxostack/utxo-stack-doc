@@ -19,23 +19,25 @@ CSVBurn is executed on the source chain, and the uUDT contract verifies:
 
 1. At least `X` amount of tokens have been burned in this transaction.   
 2. `src_chain_id` is the chain_id of the current chain.
-3. `dst_chain_id` and `out_point` are the out_point on another chain.
+3. `dst_chain_id` and `out_point` refer to the `out_point` on another chain.
 
 ### `CSVMint(X, burn_tx)`
+
 CSVMint is executed on the destination chain, and the uUDT contract verifies:
 
-1. The `burn_tx` exists on the `src_chain_id` and the time since it was packaged on the source chain has exceeded the `challenge period`.
+1. The `burn_tx` exists on the `src_chain_id` and the time since it was packaged on the source chain has exceeded the `confirmation period`.
+    - For cross-chain direction from RGB++ Layer to Branch chain, the confirmation period is determined by the confirmation number on RGB++ Layer.
+    - For cross-chain direction from Branch chain to RGB++ Layer, the confirmation period is one challenge period.
 2. The contract verifies that `burn_tx.dst_chain_id` must be the current chain.
 3. The current transaction `inputs` must include the `out_point` specified in the related burn_tx.
 4. Mint X amount of tokens for the user to retrieve on the current chain.
-
 
 ## Cross-Chain Complete Flow
 
 The complete flow for the user to transfer tokens between UTXO Stack chains is as follows:
 
-1. Call `CSVBurn` on the source chain to burn X tokens and provide a `mint out_point` on the destination chain.
-2. Wait for one challenge period.
+1. Call `CSVBurn` on the source chain to burn `X` amount of tokens and provide a `mint out_point` on the destination chain.
+2. Wait for confirmation period.
 3. Generate a CSV proof on the source chain.
 4. Call `CSVMint` on the destination chain and provide the `CSV proof`.
 5. The `mint out_point` must be used as one of the mint transaction's inputs, and X amount of tokens will be minted.

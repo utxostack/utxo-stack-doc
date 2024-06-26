@@ -22,7 +22,7 @@ A permissionless, secure, and decentralized cross-chain protocol to move assets 
 
 Client-side verification is an RGB++ feature.
 
-Client-side verification proof is composed of a series of UTXO transactions and Merkle proofs. With the proof, the validity of transactions can be verified in an independent context. For example, a client-side verification proof can be generated from an App chain and verified in an RGB++ contract.
+Client-side verification proof is composed of a series of UTXO transactions and Merkle proofs. With the proof, the validity of transactions can be verified in an independent context. For example, a client-side verification proof can be generated from a Branch chain and verified in an RGB++ contract.
 
 ### DA layer / DA chain
 
@@ -42,18 +42,18 @@ A DA chain light client contract deployed on the RGB++ layer. RGB++ contracts ca
 
 A DA chain light client node can verify DA chain blocks with high confidence by using the data availability sampling protocol.
 
-### App chain
+### Branch chain
 
-An app chain is a layer-2 rollup chain that maintains a chain state contract on the RGB++ layer. A challenge of invalid layer-2 state can be sent from the RGB++ layer.
+A Branch chain is a layer-2 rollup chain that maintains a chain state contract on the RGB++ layer. A challenge of invalid layer-2 state can be sent from the RGB++ layer.
 
 
-### App chain validator
+### Branch chain validator
 
-An App chain validator who has a stake in the App chain staking contract. A validator has the chance to participate in the consensus of a block by signing. A validator's stake will be slashed if they sign an invalid block.
+A Branch chain validator who has a stake in the Branch chain staking contract. A validator has the chance to participate in the consensus of a block by signing. A validator's stake will be slashed if they sign an invalid block.
 
-### App chain light client (RGB++ contract)
+### Branch chain light client (RGB++ contract)
 
-An App chain light client deployed on the RGB++ layer. RGB++ contracts can access the light client to prove the App chain's state.
+A Branch chain light client deployed on the RGB++ layer. RGB++ contracts can access the light client to prove the Branch chain's state.
 
 ### Challenge Period
 
@@ -62,7 +62,7 @@ The challenge period is a window of time during which a layer-2 block can be cha
 
 ### Chain state challenge
 
-A staker can start a chain state challenge if they disagree with the DA chain or an app chain's chain state.
+A staker can start a chain state challenge if they disagree with the DA chain or a Branch chain's chain state.
 
 A challenge proof contains an invalid transition and a Merkle proof. The proof can be verified on the RGB++ layer. The contract guarantees that the failed party loses their stake.
 
@@ -70,6 +70,6 @@ When under a DA attack, there may not be enough data to construct such a proof. 
 
 ### RGB++ DA exit challenge
 
-When an App chain is under a DA attack, an asset holder can start an asset attestation by providing a client-side verification proof (the proof is stored on the user's local device).
+When a Branch chain is under a DA attack, an asset holder can start an asset attestation by providing a client-side verification proof (the proof is stored on the user's local device).
 
-The asset attestation will be canceled if anyone submits a valid transaction that spends the UTXO (which means the asset holder is using an obsolete state). Otherwise, after the challenge period, the asset holder can mint the corresponding assets on the RGB++ layer. App chain validators must update the app chain states to reflect the DA exit.
+The asset attestation will be canceled if anyone submits a valid transaction that spends the UTXO (which means the asset holder is using an obsolete state). Otherwise, after the challenge period, the asset holder can mint the corresponding assets on the RGB++ layer. Branch chain validators must update the Branch chain states to reflect the DA exit.
