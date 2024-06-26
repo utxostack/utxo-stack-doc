@@ -44,7 +44,7 @@ A DA chain light client node can verify DA chain blocks with high confidence by 
 
 ### Branch chain
 
-An Branch chain is a layer-2 rollup chain that maintains a chain state contract on the RGB++ layer. A challenge of invalid layer-2 state can be sent from the RGB++ layer.
+A Branch chain is a layer-2 rollup chain that maintains a chain state contract on the RGB++ layer. A challenge of invalid layer-2 state can be sent from the RGB++ layer.
 
 
 ### Branch chain validator
