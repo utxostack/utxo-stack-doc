@@ -2,33 +2,59 @@
 sidebar_position: 6
 ---
 
-# RGB++ DA exit
+# Exit Mechanism
 
-利用 CSV 以及交互式挑战，用户可以在 App chain 以及 DA layer 同时被攻击的情况下恢复 RGB++ 资产。
+In the extreme situation of simultaneous attacks on both the branch chain and DA layer, users can still leverage CSV (client-side verification) and interactive challenges to recover RGB++ assets from a branch chain to the bound RGB++ layer.
 
-> 在 App chain 以及 DA layer 同时被攻击时，用户无法直接从 DA layer 获取足够数据构造 CSV proof。因此需要用户在本地保存 CSV proof, 用户通过使用支持保存 CSV proof 的钱包或者其他辅助工具可以在本地保留所需证明。
+This redundant exit mechanism ensures that the security of user funds depends solely on the RGB++ layer and the challenge mechanism.
 
-## Exit & Challenge
 
-假设用户本地保存了最近一次的资产交易状态以及 CSV proof，但因为 App chain 和 DA layer 被攻击而无法生成当前资产状态的证明，用户需要在 RGB++ 合约进行交互式挑战证明资产在 App chain 上的状态:
+## Interactive Challenge Process
 
-1. 用户调用 RGB++ 合约开始 DA attest 挑战
-    1. 提供最近一个 Challenge Period 之前的资产交易状态以及 CSV proof
-    2. 如果最近一次交易还未经过 Challenge Period，则用户需要等待 Challenge Period 结束再发起挑战
-    3. 需要附上一小笔 bounty
-2. Challenger node 发现链上的 DA attest 挑战后需要和本地数据对比
-    1. 如果 UTXO 已知且无后续交易则忽略
-    2. 如果 UTXO 有后续交易，则 challenger 提交该交易和 merkle proof 并终止 DA attest，获取 bounty
-3. DA attest 如果经过 Challenge Period 后仍未被终止，用户继续调用 RGB++ 合约 DA exit
-4. 为了防止攻击者伪造资产并退出，DA exit 按照资产最后的交易所在的 block number 和 tx index 排序，并按照顺序退出资产，诚实的用户及节点发现 DA 攻击后会停止广播交易，因此攻击者伪造的资产一定排在诚实用户之后，因此，诚实用户的资产会优先退出，攻击者伪造的资产则因为资产不足无法退出
-5. 用户 DA exit 成功后，提供解锁资产的签名并销毁 Proof UTXO，Mint 对应的 RGB++ 资产
+When the branch chain and DA layer are simultaneously compromised, users may lack sufficient data from DA layer to independently construct a valid CSV proof. To address this, users need to locally maintain the most recent CSV proof. By utilizing wallets or auxiliary tools that support CSV proof storage, users can securely retain the necessary evidence on their own devices.
 
-## Watchtowers
+Upon detecting an attack, users can initiate an interactive challenge within the RGB++ smart contract to prove the asset's state on the branch chain:
 
-上述描述的退出方式需要用户本地保存 CSV proof，以及持续观察 App chain 和 DA chain 的运行情况，主动发起挑战。这对于大部分用户来说成本过高，我们引入 Watchtower 节点，Watchtower 观察 App chain 及 DA chain 出现异常情况时，节点帮助用户开始退出流程，直到最后实际 Mint 资产才需要用户参与。
+1. **Initiate DA Attest Challenge**
+   - The user calls the RGB++ contract to begin the DA attest challenge process.
+   - The user provides the asset transaction history and CSV proof from before the most recent challenge period.
+   - The user attaches a small bounty to incentivize challenger participation.
 
-## L1 强制退出
+2. **Challenger Node Verification**
+   - challenger nodes monitor the chain for active DA attest challenges.
+   - Upon discovery, they compare the on-chain data with their local records.
+   - If the UTXO is known and has no subsequent transactions, the challenger ignores/agrees it.
+   - If the UTXO has subsequent transactions, the challenger submits the transaction and Merkle proof, terminates the DA attest, and claims the bounty.
 
-作为最终的保障，在 DA layer 被攻击时，用户可以在 UTXO stack 治理合约发起强制退出投票。
+3. **Proceed with DA Exit**
+   - If the DA attest remains unchallenged after one challenge period, the user can proceed with the DA exit process by calling the RGB++ contract.
 
-当投票超过 70% 时，App chain 状态合约会停止接受新块，并按照顺序退出链上的所有资产。
+4. **Prioritized Asset Exit**
+   - To prevent attackers from forging assets and fraudulently exiting, the DA exit process sorts assets based on the block number and transaction index of their last recorded transaction.
+   - Honest users and nodes will cease broadcasting transactions upon detecting a DA attack, ensuring that forged assets are ranked after legitimate ones.
+   - As a result, the assets of honest users will be prioritized for exit, while forged assets will be unable to exit due to insufficient funds.
+
+5. **Asset Unlocking and Minting on the bound RGB++ Layer**
+   - Upon successful DA exit, the user provides a signature to unlock the assets and destroys the related proof UTXO.
+   - The corresponding RGB++ assets are then minted on the bound RGB++ Layer, which operates on a PoW consensus mechanism, providing enhanced security.
+
+This interactive challenge process, combined with the secure asset exit mechanism, ensures the resilience and recoverability of the RGB++ ecosystem against potential attacks targeting on branch chain and DA layer simultaneously.
+
+
+## Watchtower Assistance
+
+The aforementioned exit process requires users to locally maintain CSV proof and continuously monitor the branch chain and DA chain for anomalies, actively initiating challenges when necessary. This may prove burdensome for many users.
+
+To alleviate this, the system introduces `Watchtower nodes`. These nodes continuously observe the chains and, upon detecting an attack, helps the user start the exit process. User participation is only required at the final stage of minting assets.
+
+
+## RGB++ Layer Governance-Triggered Exit
+
+As an ultimate safeguard, in the extreme situation of a DA layer attack, users can vote for a forced exit through the UTXO stack governance contract.
+
+If the vote exceeds a 70% threshold, the branch chain state contract on RGB++ Layer will stop accepting new blocks and exit all assets in prioritized order from the branch chain.
+
+
+## Conclusion
+
+The UTXO Stack exit mechanism combines user interactive challenges, watchtower assistance, and governance-triggered forced exit to enhance ecosystem resilience, ensuring the resilience and recoverability of the RGB++ ecosystem against potential attacks that simultaneously target branch chains and DA layer. Its true effectiveness in ensuring ecosystem resilience and recoverability remains to be seen in practice.
