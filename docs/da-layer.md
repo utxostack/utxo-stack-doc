@@ -5,7 +5,7 @@ title: DA Layer
 
 # UTXO Stack Data Availability Layer
 
-A Data Availability (DA) layer provides a mechanism for the execution and settlement layers to check in a trust-minimized way whether app chains' transaction data is indeed available.
+Data Availability (DA) layer solves the data availability problem in a trust-minimized way by leveraging the data availability sampling protocol.
 
 The UTXO Stack DA layer uses a light client data sampling approach to solve the data availability problem. Therefor Light clients are able to know whether the data is actually available. Because if they know that the data is available, they know there will likely be a honest full node who has seen and checked it, and will broadcast a fraud proof if it’s incorrect/fraudulent.
 
