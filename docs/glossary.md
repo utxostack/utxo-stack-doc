@@ -62,7 +62,7 @@ The challenge period is a window of time during which a layer-2 block can be cha
 
 ### Chain state challenge
 
-A staker can start a chain state challenge if they disagree with the DA chain or an Branch chain's chain state.
+A staker can start a chain state challenge if they disagree with the DA chain or a Branch chain's chain state.
 
 A challenge proof contains an invalid transition and a Merkle proof. The proof can be verified on the RGB++ layer. The contract guarantees that the failed party loses their stake.
 
