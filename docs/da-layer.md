@@ -11,23 +11,23 @@ The UTXO Stack DA layer leverages light clients to perform data sampling. Theref
 
 UTXO Stack and RGB++ provide an exit strategy in case of a DA attack, as detailed in the [DA exit](./da-exit.md) documentation. Although the asset security does not depend solely on the security of the DA layer, using the DA layer still has some advantages:
 
-1. **Increases the cost of malicious attacks:** Attackers must simultaneously attack the DA layer and the app chain to manipulate assets.
+1. **Increases the cost of malicious attacks:** Attackers must simultaneously attack the DA layer and the branch chain to manipulate assets.
 
 2. **Reduces the cost of challenges:** The DA layer supports data retrieval through light clients and data availability sampling (DAS), which significantly lowers the cost of running a challenge node. This approach not only makes it more economical to maintain challenge nodes but also enhances the overall security and reliability of the network by making it easier for more participants to engage in the challenge process.
 
-3. **Concentrates staking:** All app chains's staked value comes from the DA layer. The combined staking value from all App Chains contributes to the security of the DA layer, creating a more robust and resilient system.
+3. **Concentrates staking:** All branch chains's staked value comes from the DA layer. The combined staking value from all branch chains contributes to the security of the DA layer, creating a more robust and resilient system.
 
 
 ## DA chain
 
 ### Header
 
-The DA chain uses a similar architecture to the App Chain, but extends the consensus mechanism and P2P network protocols to support the DA layer functionality.
+The DA chain uses a similar architecture to the branch chain, but extends the consensus mechanism and P2P network protocols to support the DA layer functionality.
 
-The DA chain's block structure is consistent with the App Chain. However, the meaning of the tx_root field has changed. In the DA chain, the new field da_tx_root is calculated from the tx_root and the tx_blob_root using merkle_hash(tx_root, tx_blob_root). This modification allows the DA chain to generate Merkle proofs for blobs, which are used in data sampling and data submission verification.
+The DA chain's block structure is consistent with the branch chain. However, the meaning of the tx_root field has changed. In the DA chain, the new field da_tx_root is calculated from the tx_root and the tx_blob_root using merkle_hash(tx_root, tx_blob_root). This modification allows the DA chain to generate Merkle proofs for blobs, which are used in data sampling and data submission verification.
 
 ```rust
-// app chain
+// branch chain
 let tx_root = merkle_hash(txs);
 
 // DA chain
@@ -44,7 +44,7 @@ The DA chain has a built-in `Dummy Type ID - Data Store` in the Genesis, which i
 
 If a DA chain transaction submits data, the first output's type_script must use the Data Store contract, and the output's cell data field must be the 32-byte `merkle_hash(blobs)`.
 
-App chain consensus nodes utilize the `submit_tx_with_blobs` interface when submitting chain data (e.g. app chain transactions), along with the blobs list. The DA validators will check if the Blobs submission information is consistent with the related transaction, and if so, they will broadcast the transaction and Blobs.
+Branch chain consensus nodes utilize the `submit_tx_with_blobs` interface when submitting chain data (e.g. branch chain transactions), along with the blobs list. The DA validators will check if the Blobs submission information is consistent with the related transaction, and if so, they will broadcast the transaction and Blobs.
 
 DA validators thoroughly verify each block by calculating the `blob_root` for each transaction and comparing it to the `da_tx_root`. If any discrepancies are found, the block is rejected.
 
@@ -64,11 +64,11 @@ pub struct TxWithBlob {
 
 ### DA proof
 
-After a DA chain transaction is packaged, app chain nodes can provide a Merkle proof based on the `da_tx_root` in a block header to cryptographically prove that a specific blob has been submitted to the DA chain:
+After a DA chain transaction is packaged, branch chain nodes can provide a Merkle proof based on the `da_tx_root` in a block header to cryptographically prove that a specific blob has been submitted to the DA chain:
 
-1. The app chain block header must save the Merkle root of the submitted blobs - `da_blobs_root`.
+1. The branch chain block header must save the Merkle root of the submitted blobs - `da_blobs_root`.
 2. After the DA Chain has packaged the blobs, one can obtain the DA chain block header and the Merkle proof for the da_blobs_root.
-3. An on-chain DA light client on CKB can be invoked to verify the Merkle Proof, to prove that the app chain data has been submitted to the DA layer.
+3. An on-chain DA light client on CKB can be invoked to verify the Merkle Proof, to prove that the branch chain data has been submitted to the DA layer.
 
 ## Pruning
 
