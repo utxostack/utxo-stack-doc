@@ -79,7 +79,7 @@ Nodes can be set to "archive mode" to persist the full data.
 
 Data availability sampling (DAS) is a crucial technique used by the DA chain to ensure the availability and retrievability of block data and blobs.
 
-DA chain nodes use Reed-Solomon erasure coding to split the block data and blobs into multiple shares. They then organize these shares into a 2D matrix structure using a `2D Reed-Solomon Encoded Merkle tree`. This allows them to obtain the dataRoot and the Merkle roots of each row and column in the 2D matrix.
+DA chain nodes use Reed-Solomon erasure coding to split the block data and blobs into multiple shares. These shares are organized into a 2D matrix structure using a `2D Reed-Solomon Encoded Merkle tree`. This generates the `dataRoot` of each row and column in the 2D matrix.
 
 <figure align="center">
   <img src="/img/da-layer/2D-Reed-Solomon-Encoded-Merkle-tree.jpeg" alt="2D Reed-Solomon Encoded Merkle tree" />
