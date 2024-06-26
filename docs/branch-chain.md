@@ -47,7 +47,7 @@ A [DA layer](./da-layer.md) is introduced to address the Data Availability (DA) 
 
 On every RGB++ compatible chain, a Branch chain light client contract is maintained. This contract records all Branch chain headers.
 
-After an Branch chain block is produced, the Branch chain validator must submit the complete block to the DA layer and obtain a DA proof. Then, the block header and DA proof should be submitted to the light client contract to update the Branch chain state recorded on the bound PoW chain.
+After a Branch chain block is produced, the Branch chain validator must submit the complete block to the DA layer and obtain a DA proof. Then, the block header and DA proof should be submitted to the light client contract to update the Branch chain state recorded on the bound PoW chain.
 
 The Branch chain block is considered confirmed only after completing the above submissions. If a validator fails to update the light client contract for a prolonged period, the election contract will penalize the validator's staking and initiate a re-election process.
 
