@@ -88,7 +88,7 @@ DA chain nodes use Reed-Solomon erasure coding to split the block data and blobs
 
 The DA chain light clients randomly select a set of coordinates to query shares from full nodes. If the full nodes return valid shares, it indicates that the data is most likely available. They continuously request shares from the DA chain full nodes and propagate them through the P2P gossip protocol.
 
-As a result, honest nodes can also obtain enough shares (i.e., at least 𝑘×𝑘 unique shares) from the P2P network to recover the complete data.
+As a result, honest full nodes have a high probability of obtaining enough shares (i.e., at least 𝑘×𝑘 unique shares) from the P2P network to recover the complete data.
 
 ## References
 
