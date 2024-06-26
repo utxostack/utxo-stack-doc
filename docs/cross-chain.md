@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Cross-Chain Interoperability with UTXO Stack
+# Cross-Chain Interoperability
 
 UTXO Stack enables seamless cross-chain interoperability by leveraging the RGB++ protocol[^1]'s isomorphic binding technology `assets leap`. This innovative approach eliminates the need for traditional cross-chain bridges, which can be centralized points of failure.
 
@@ -41,7 +41,5 @@ The complete flow for the user to transfer tokens between UTXO Stack chains is a
 5. The `mint out_point` must be used as one of the mint transaction's inputs, and X amount of tokens will be minted.
 
 By enabling seamless cross-chain interoperability, UTXO Stack empowers developers to build applications that can leverage the strengths of different UTXO blockchain networks. This opens up new possibilities for asset exchange, cross-chain lending, and other decentralized finance (DeFi) applications built on top of Bitcoin's robust security and decentralization.
-
-## References
 
 [^1]: https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/light-paper-en.md
