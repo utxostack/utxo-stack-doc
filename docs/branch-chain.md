@@ -89,9 +89,9 @@ For cross-chain operations between Bitcoin and RGB++ compatible chains, please r
 
 * Branch chain election contract
 * Branch chain light client contract
-* DA layer verification contract
-* Extended xUDT contract
 * Branch chain challenge contract
+* DA layer verification contract
+* Extended xUDT contract - universal user defined token (uUDT)
 
 ## Customizing Branch Chains
 
