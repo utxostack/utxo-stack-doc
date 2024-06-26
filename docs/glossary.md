@@ -22,7 +22,7 @@ A permissionless, secure, and decentralized cross-chain protocol to move assets 
 
 Client-side verification is an RGB++ feature.
 
-Client-side verification proof is composed of a series of UTXO transactions and Merkle proofs. With the proof, the validity of transactions can be verified in an independent context. For example, a client-side verification proof can be generated from an Branch chain and verified in an RGB++ contract.
+Client-side verification proof is composed of a series of UTXO transactions and Merkle proofs. With the proof, the validity of transactions can be verified in an independent context. For example, a client-side verification proof can be generated from a Branch chain and verified in an RGB++ contract.
 
 ### DA layer / DA chain
 
