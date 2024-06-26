@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkutxo_stack_website=self.webpackChunkutxo_stack_website||[]).push([[472],{5513:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"index","permalink":"/blog/index","unlisted":false}]}')}}]);
