@@ -7,7 +7,7 @@ title: DA Layer
 
 Data Availability (DA) layer solves the data availability problem in a trust-minimized way by leveraging the data availability sampling protocol.
 
-The UTXO Stack DA layer uses a light client data sampling approach to solve the data availability problem. Therefor Light clients are able to know whether the data is actually available. Because if they know that the data is available, they know there will likely be a honest full node who has seen and checked it, and will broadcast a fraud proof if it’s incorrect/fraudulent.
+The UTXO Stack DA layer leverages light clients to perform data sampling. Therefore, light client nodes constantly sample data shares from full nodes and broadcast shares if they are valid. If there are enough light clients in the network, we can be confident that an honest full node can collect enough shares to reconstruct the full data.
 
 UTXO Stack and RGB++ provide an exit strategy in case of a DA attack, as detailed in the [DA exit](./da-exit.md) documentation. Although the asset security does not depend solely on the security of the DA layer, using the DA layer still has some advantages:
 
