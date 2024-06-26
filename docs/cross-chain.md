@@ -25,7 +25,7 @@ CSVBurn is executed on the source chain, and the uUDT contract verifies:
 
 CSVMint is executed on the destination chain, and the uUDT contract verifies:
 
-1. The `burn_tx` exists on the `src_chain_id` and the time since it was packaged on the source chain has exceeded the confirmation period.
+1. The `burn_tx` exists on the `src_chain_id` and the time since it was packaged on the source chain has exceeded the `confirmation period`.
     - For cross-chain direction from RGB++ Layer to Branch chain, the confirmation period is determined by the confirmation number on RGB++ Layer.
     - For cross-chain direction from Branch chain to RGB++ Layer, the confirmation period is one challenge period.
 2. The contract verifies that `burn_tx.dst_chain_id` must be the current chain.
