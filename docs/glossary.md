@@ -53,7 +53,7 @@ An Branch chain validator who has a stake in the Branch chain staking contract. 
 
 ### Branch chain light client (RGB++ contract)
 
-An Branch chain light client deployed on the RGB++ layer. RGB++ contracts can access the light client to prove the Branch chain's state.
+A Branch chain light client deployed on the RGB++ layer. RGB++ contracts can access the light client to prove the Branch chain's state.
 
 ### Challenge Period
 
