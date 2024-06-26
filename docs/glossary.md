@@ -70,6 +70,6 @@ When under a DA attack, there may not be enough data to construct such a proof. 
 
 ### RGB++ DA exit challenge
 
-When an Branch chain is under a DA attack, an asset holder can start an asset attestation by providing a client-side verification proof (the proof is stored on the user's local device).
+When a Branch chain is under a DA attack, an asset holder can start an asset attestation by providing a client-side verification proof (the proof is stored on the user's local device).
 
 The asset attestation will be canceled if anyone submits a valid transaction that spends the UTXO (which means the asset holder is using an obsolete state). Otherwise, after the challenge period, the asset holder can mint the corresponding assets on the RGB++ layer. Branch chain validators must update the Branch chain states to reflect the DA exit.
