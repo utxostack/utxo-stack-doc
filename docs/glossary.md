@@ -49,7 +49,7 @@ An Branch chain is a layer-2 rollup chain that maintains a chain state contract 
 
 ### Branch chain validator
 
-An Branch chain validator who has a stake in the Branch chain staking contract. A validator has the chance to participate in the consensus of a block by signing. A validator's stake will be slashed if they sign an invalid block.
+A Branch chain validator who has a stake in the Branch chain staking contract. A validator has the chance to participate in the consensus of a block by signing. A validator's stake will be slashed if they sign an invalid block.
 
 ### Branch chain light client (RGB++ contract)
 
