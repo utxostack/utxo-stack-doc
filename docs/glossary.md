@@ -34,9 +34,13 @@ The DA chain provides a set of interfaces to support data storage, data retrieva
 
 A DA chain validator who has a stake in the DA staking contract. A validator has the chance to participate in the consensus of a block by signing. A validator's stake will be slashed if they sign an invalid block.
 
-### DA light client
+### DA light client (RGB++ contract)
 
-A DA chain light client deployed on the RGB++ layer. RGB++ contracts can access the DA light client to prove data is submitted to the DA chain.
+A DA chain light client contract deployed on the RGB++ layer. RGB++ contracts can access the DA light client to prove data is submitted to the DA chain.
+
+### DA light client node
+
+A DA chain light client node can verify DA chain blocks with high confidence by using the data availability sampling protocol.
 
 ### App chain
 
@@ -47,7 +51,7 @@ An app chain is a layer-2 rollup chain that maintains a chain state contract on 
 
 An App chain validator who has a stake in the App chain staking contract. A validator has the chance to participate in the consensus of a block by signing. A validator's stake will be slashed if they sign an invalid block.
 
-### App chain light client
+### App chain light client (RGB++ contract)
 
 An App chain light client deployed on the RGB++ layer. RGB++ contracts can access the light client to prove the App chain's state.
 
