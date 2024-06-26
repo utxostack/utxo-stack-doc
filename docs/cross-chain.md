@@ -6,7 +6,7 @@ sidebar_position: 5
 
 UTXO Stack enables seamless cross-chain interoperability by leveraging the RGB++ protocol[^1]'s isomorphic binding technology `assets leap`. This innovative approach eliminates the need for traditional cross-chain bridges, which can be centralized points of failure.
 
-The key to UTXO Stack's cross-chain capabilities lies in the way it represents asset ownership. Every RGB++ asset/cell can be bound to a unique UTXO. And the unique UTXO's owner is then the same as the RGB++ asset/cell's owner.
+The key to UTXO Stack's cross-chain capabilities lies in the way it represents asset ownership. Every RGB++ asset/cell can be bound to a unique UTXO, even the UTXO is on another chain.
 
 ## Burn and Mint
 
