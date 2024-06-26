@@ -6,29 +6,29 @@ sidebar_position: 9
 
 ### RGB++ layer
 
-[RGB++](https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/light-paper-en.md) is a protocol by using single-use seals and client-side validation techniques to manage state changes and transaction verification.
+[RGB++](https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/light-paper-en.md) is a protocol that uses single-use seals and client-side validation techniques to manage state changes and transaction verification.
 
 In the UTXO stack, the RGB++ layer serves as the contract layer, resolving challenge disputes, validator elections, and staking.
 
 ### RGB++ assets
 
-RGB++ assets are an extended assets protocol deployed on the RGB++ layer. It supports permissionless asset transfer across chains via client-side verification.
+RGB++ assets are an extended assets protocol deployed on the RGB++ layer. It supports cross-chain asset transfer via client-side verification without centralized bridges.
 
 ### RGB++ assets leap protocol
 
-A permissionless protocol to move assets across chains.
+A permissionless, secure, and decentralized cross-chain protocol to move assets across RGB++ compatible chains.
 
 ### Client-side verification proof
 
 Client-side verification is an RGB++ feature.
 
-Client-side verification proof is composed of a series of UTXO transactions and Merkle proofs. With the proof, we can verify these transactions' validity an independent context. For example, we can generate a client-side verification proof from an App chain and verify the proof in an RGB++ contract.
+Client-side verification proof is composed of a series of UTXO transactions and Merkle proofs. With the proof, the validity of transactions can be verified in an independent context. For example, a client-side verification proof can be generated from an App chain and verified in an RGB++ contract.
 
 ### DA layer / DA chain
 
 Data availability layer or Data availability chain. The DA chain is an infrastructure that solves data availability problems in the UTXO stack.
 
-The DA chain provides a set of interfaces to support data storage, data retrieval, and data proof. The DA chain's consensus guarantees that the DA layer nodes keep submitted data for at least the Challenge Period duration.
+The DA chain provides a set of interfaces to support data storage, data retrieval, and data proof. The DA chain's consensus guarantees that the DA layer nodes keep submitted data for at least one Challenge Period duration.
 
 ### DA validator
 
