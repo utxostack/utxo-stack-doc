@@ -24,7 +24,7 @@ UTXO Stack and RGB++ provide an exit strategy in case of a DA attack, as detaile
 
 The DA chain uses a similar architecture to the App Chain, but extends the consensus mechanism and P2P network protocols to support the DA layer functionality.
 
-The DA chain's block structure is consistent with the App Chain. However, the meaning of the `tx_root` field has changed. In the DA chain, the system calculates `merkle_hash(tx_root, tx_blob_root)` as the new da_tx_root. This modification allows the DA chain to incorporate both transaction data and blob data into a single Merkle root, ensuring efficient verification of both types of data within the block structure.
+The DA chain's block structure is consistent with the App Chain. However, the meaning of the tx_root field has changed. In the DA chain, the new field da_tx_root is calculated from the tx_root and the tx_blob_root using merkle_hash(tx_root, tx_blob_root). This modification allows the DA chain to generate Merkle proofs for blobs, which are used in data sampling and data submission verification.
 
 ```rust
 // app chain
