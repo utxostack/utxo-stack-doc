@@ -73,7 +73,7 @@ After a DA chain transaction is packaged, app chain nodes can provide a Merkle p
 ## Pruning
 
 DA chain Nodes with pruning enabled will periodically delete block and blob data, keeping only the block headers. This saves significant disk space.
-Nodes can be set to "archive mode" to save the complete data if needed.
+Nodes can be set to "archive mode" to persist the full data.
 
 ## Data availability sampling
 
