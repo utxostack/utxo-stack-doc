@@ -4,9 +4,9 @@ sidebar_position: 6
 
 # Exit Mechanism
 
-In the extreme event of concurrent attacks on both the branch chain and DA layer, users can still leverage CSV (client-side verification) and interactive challenges to recover RGB++ assets from a branch chain to the bound RGB++ Layer.
+In the extreme situation of simultaneous attacks on both the branch chain and DA layer, users can still leverage CSV (client-side verification) and interactive challenges to recover RGB++ assets from a branch chain to the bound RGB++ layer.
 
-This robust exit mechanism ensures the security and recoverability of user funds in the face of potential system vulnerabilities.
+This redundant exit mechanism ensures that the security of user funds depends solely on the RGB++ layer and the challenge mechanism.
 
 
 ## Interactive Challenge Process
@@ -17,7 +17,6 @@ Upon detecting an attack, users can initiate an interactive challenge within the
 
 1. **Initiate DA Attest Challenge**
    - The user calls the RGB++ contract to begin the DA attest challenge process.
-   - If the latest transaction has not yet passed the challenge period, the user must wait for its expiration before initiating the challenge.
    - The user provides the asset transaction history and CSV proof from before the most recent challenge period.
    - The user attaches a small bounty to incentivize challenger participation.
 
@@ -51,7 +50,7 @@ To alleviate this, the system introduces `Watchtower nodes`. These nodes continu
 
 ## RGB++ Layer Governance-Triggered Exit
 
-As an ultimate safeguard, in the extreme event of a DA layer attack, users can vote for a forced exit through the UTXO stack governance contract.
+As an ultimate safeguard, in the extreme situation of a DA layer attack, users can vote for a forced exit through the UTXO stack governance contract.
 
 If the vote exceeds a 70% threshold, the branch chain state contract on RGB++ Layer will stop accepting new blocks and exit all assets in prioritized order from the branch chain.
 
