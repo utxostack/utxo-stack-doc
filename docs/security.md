@@ -4,46 +4,43 @@ sidebar_position: 7
 
 # Security
 
-我们来 Review UTXO Stack 系统中的组件并分析安全性
+This documentation reviews the security of the UTXO Stack components:
 
 * RGB++
 * Challenger
 * Branch chain
 * DA layer
 
-UTXO Stack 资产可以通过 CSV proof 验证并铸造。因此 Branch chain 即使被攻击也不会直接影响资产安全，仅会影响 Branch chain 本身的可用性。对安全性要求较高的用户可以选择使用支持本地保存 CSV proof 的钱包，在这种情况下即使 Branch chain 及 DA layer 无法工作用户仍然可以从 RGB++ 层通过挑战机制取回资产。
+The UTXO stack supports DA exit with CSV proofs and interactive challenge in extreme attack situations.
 
-因此 RGB++ 以及挑战机制仍然工作，UTXO Stack 资产就是安全的。系统的安全性取决于 RGB++ 的安全性。
+Therefore, even if the Branch chain and DA layer are attacked, it won't directly affect RGB++ asset security, only the Branch chain's liveness.
 
-为了论述 RGB++ 安全性，我们引入 Bitcoin 级安全性的概念，如果一个组件采用 POW 算力且和 Bitcoin 网络算力相当，我们就认为组件具有 Bitcoin 级安全性。
+As long as RGB++ and the challenge mechanism are functioning, RGB++ assets remain secure. The security depends solely on the RGB++ layer.
+
+The concept of "Bitcoin-level security" is introduced. If assets are secured by PoW (Proof of Work) and the mining power can be compared to the mining power used to protect Bitcoin, then those assets are considered to have Bitcoin-level security.
 
 ## RGB++
 
-RGB++ 在 UTXO Stack 中作为 Consensus 合约层执行 Branch chain 选举，Challenge 以及轻节点。RGB++ 的安全性决定了 UTXO Stack 的安全性。
+RGB++ supports client-side verification features, which verify RGB++ transactions in an independent context, such as on a different blockchain. Therefore, RGB++ contracts can be deployed to any Turing-complete blockchain that fully implements RGB++ verification. By binding the RGB++ layer to a PoW consensus chain, the security of the RGB++ layer can be compared to Bitcoin based on their PoW mining power.
 
-RGB++ 本身具有 client side verification 特性，RGB++ 交易可以脱离区块链验证，也可以在不同的区块链上做相同的验证。因此我们需要把 RGB++ 绑定到具有 Bitcoin 同等级别安全性的环境中。
+### Equivalent PoW Security
 
-### POW 同等算力
+This section provides a methodology to analyze the security by comparing the attacking cost of the RGB++ layer and Bitcoin.
 
-POW 同等算力的思路是我们把 RGB++ 部署到一条 POW 区块链上，部署链有能力完整的实现 RGB++ 验证，因此我们只需要能证明部署链的安全性可以换算为 Bitcoin 级别安全性就可以证明 RGB++ 是 Bitcoin 级别安全性。
+Bitcoin is considered highly secure after 6 confirmation blocks, so this is used as the baseline. If reverting an RGB++ state needs more mining power and cost than Bitcoin, RGB++ is considered to have Bitcoin-level security. The mining power and cost required to revert 6 Bitcoin confirmation blocks are evaluated, involving estimating the amount of mining power rental cost needed to reverse these blocks. Then, the number of confirmation blocks on the RGB++ deployment chain that cost the same mining power and financial resources to revert are determined. The confirmations on the RGB++ layer have the same security as 6 Bitcoin confirmation blocks since the attacking cost is the same.
 
-假设 Bitcoin 6 个确认块后数据可以被认为是安全的。我们可以计算出想要推翻 6 个 Bitcoin 确认块需要的算力以及资金。
-通过同样的方式对部署链的 POW 算法反向计算可以得出 X 个部署链确认块可以达到同样的算力和资金成本。因此我们能认为在部署链上确认 X 个块时可以达到和 Bitcoin 6 个确认块相同的安全性。我们可以把 X 作为使用 RGB++ 计算时的确认时间。
+This equivalence allows for the determination of the appropriate confirmation time for transactions in RGB++, ensuring that the security of RGB++ is comparable to Bitcoin-level security when deployed on a PoW blockchain.
 
 ## Challenger
 
-UTXO Stack 采用基于挑战的安全假设，在 Challenge period 内，一定会有 Challenger 找出坏块并发起挑战。这个假设和 Rollup 以及 Lightning network 类似，因此我们认为 UTXO stack 的挑战机制安全性至少和 Rollup 与 Lightning network 的挑战机制相当。
+The UTXO Stack uses a challenge-based security assumption, where during the challenge period, a challenger will identify bad blocks and initiate a challenge. This assumption is similar to Rollup and the Lightning Network, so the challenge mechanism of the UTXO Stack is considered to be at least as secure as those.
 
-因为 RGB++ 支持 CSV proof, UTXO stack challenger 可以使用轻节点协议以低成本的方式运行。
-
-我们可以考虑引入 watch tower 等额外的激励措施进一步增加节点中 challenger 数量。
+Since RGB++ supports CSV proofs, UTXO Stack challengers can operate using a light node protocol at low cost. Additional incentive measures, such as watchtowers, are considered to further increase the number of challengers among nodes.
 
 ## DA layer
 
-DA layer 并不直接决定 UTXO Stack 整体的安全性，但是通过引入 DA layer 我们可以提高攻击成本。攻击者必须同时控制 Branch chain 以及 DA layer 才可以进行 DA 攻击。因此引入 DA layer 有利于保护 TVL 较少的 Branch chain。
+The DA layer does not directly determine the overall security of the UTXO Stack. However, by introducing the DA layer, the cost of attacks can be increased. An attacker must control both the Branch chain and the DA layer to perform a DA attack. Therefore, the introduction of the DA layer helps protect Branch chains with smaller TVL (Total Value Locked).
 
 ## Conclusion
 
-我们描述了 UTXO stack 中和安全性相关的几个组件，Branch chain 以及 DA layer 被攻击会影响可用性，但不会实际影响用户资产，RGB++ 可以通过 POW 换算的方式达到 Bitcoin 级别的安全性，而 Challenger 以及引入的挑战假设理论上安全性和 Rollup, Lightning network 相当。
-
-综上所述，我们认为一个部署良好的 UTXO Stack 环境可以达到接近于 Bitcoin 级的安全性，其安全性至少与基于挑战的 Rollup 以及 Lightning network 系统相等。
+Several components related to security in the UTXO Stack have been described. Attacks on the Branch chain and DA layer affect branch chain liveness but do not actually affect user assets. RGB++ can achieve Bitcoin-level security through PoW equivalence confirmations, while the challenger mechanism ensures that the overall security of the UTXO stack is similar to Rollup and the Lightning Network.
