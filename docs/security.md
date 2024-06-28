@@ -35,7 +35,7 @@ This equivalence allows for the determination of the appropriate confirmation ti
 
 The UTXO Stack uses a challenge-based security assumption, where during the challenge period, a challenger will identify bad blocks and initiate a challenge. This assumption is similar to Rollup and the Lightning Network, so the challenge mechanism of the UTXO Stack is considered to be at least as secure as those.
 
-Since RGB++ supports CSV proofs, UTXO Stack challengers can operate using a light node protocol at low cost. Additional incentive measures, such as watchtowers, are considered to further increase the number of challengers among nodes.
+Since RGB++ supports CSV proofs, UTXO Stack challengers can operate using a light client protocol at low cost. Additional incentive measures, such as watchtowers, are considered to further increase the number of challengers among nodes.
 
 ## DA layer
 
