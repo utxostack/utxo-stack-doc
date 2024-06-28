@@ -11,7 +11,7 @@ sidebar_label: Staking
 
 ## Modular Staking
 
-<img src="../static/img/stake.png" width="60%">
+<img src="../static/img/stake.png" width="60%" />
 
 ## uBTC Peg Module
 
