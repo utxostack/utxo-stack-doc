@@ -27,7 +27,7 @@ The DA chain provides a set of interfaces to support data storage, data retrieva
 
 ## Branch chain
 
-A Branch chain is a layer-2 rollup chain that maintains a chain state contract on the RGB++ layer. A challenge of invalid layer-2 state can be sent from the RGB++ layer.
+A Branch chain is a layer-2 rollup chain that maintains a chain state contract on the RGB++ layer. A invalid layer-2 state challenge can be sent from the RGB++ layer.
 
 ## Challenge
 
