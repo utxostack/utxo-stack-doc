@@ -37,7 +37,7 @@ const config = {
   },
 
   plugins: [
-    [require.resolve("@noomorph/docusaurus-search-local")]
+    [require.resolve("@noomorph/docusaurus-search-local"), {}]
   ],
 
   presets: [
