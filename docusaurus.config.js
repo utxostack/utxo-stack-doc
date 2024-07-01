@@ -42,6 +42,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          path: 'docs',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
           sidebarPath: './sidebars.js',
@@ -62,6 +63,10 @@ const config = {
         },
       }),
     ],
+  ],
+
+  stylesheets: [
+    "https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css",
   ],
 
   themeConfig:
