@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 
-# Cross-Chain Interoperability
+# Bridgeless Leap
 
 UTXO Stack enables seamless cross-chain interoperability by leveraging the RGB++ protocol[^1]'s isomorphic binding technology `assets leap`. This innovative approach eliminates the need for traditional cross-chain bridges, which can be centralized points of failure.
 
