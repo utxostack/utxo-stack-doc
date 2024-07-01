@@ -36,6 +36,10 @@ const config = {
     locales: ['en'],
   },
 
+  plugins: [
+    [require.resolve("@noomorph/docusaurus-search-local"), {}]
+  ],
+
   presets: [
     [
       'classic',
