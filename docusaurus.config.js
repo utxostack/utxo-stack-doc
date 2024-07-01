@@ -154,6 +154,30 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
     }),
+
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:title',
+        content: "UTXO Stack Docs",
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:url',
+        content: 'https://docs.utxostack.network'
+      }
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'og:image',
+        content: "https://docs.utxostack.network/img/og-image.png",
+      },
+    }
+  ]
 };
 
 export default config;
