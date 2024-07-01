@@ -1,12 +1,12 @@
 ---
 sidebar_position: 5
-sidebar_label: rBTC
+sidebar_label: rBTC Wrapper
 ---
 
 # rBTC, Trustless Bitcoin Peg for Layer 2s
 
 
-rBTC is a trustless, decentralized, two-way pegged Bitcoin asset protocol. It operates on the RGB++ layer and has the following characteristics:
+rBTC is a trustless, decentralized, two-way pegged Bitcoin asset wrapper protocol. It operates on the RGB++ layer and has the following characteristics:
 
 - Trustless: Each rBTC is backed by over-collateralized assets, ensuring that users can receive full asset compensation even if participants in the asset pegging process act maliciously.
 - Permissionless: The assets of rBTC holders can be converted to and from BTC without censorship or approval from anyone.

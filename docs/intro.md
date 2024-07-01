@@ -8,7 +8,7 @@ For a long time, Bitcoin has lacked sufficient smart contract capabilities, maki
 
 UTXO Stack adopts a different approach. Firstly, we introduced a Turing-complete program environment to Bitcoin Layer 1 with Single-use seal and Client-side validation technology. Secondly, with the Layer 1 programmability, we introduced a UTXO Layer 2 framework for everyone to build their own Bitcoin Layer 2, which is called Branch chain. Branch chain's security is guaranteed by the smart contract and collaterals on Layer 1.
 
-![image](../static/img/intro/overall.jpeg)
+![image](../static/img/intro/overall.png)
 
 ## L1 programmability
 
@@ -31,13 +31,11 @@ It is permissionless to launch a PoS L2 UTXO chain, which is called **Branch cha
 
 Cross-chain Leap is benefiting from the very native feature of UTXO model. For RGB++ assets minted on Bitcoin or Branch chains, they can Leap between each other without any bridge. The Leap operation is secure, permissionless, and decentralized.
 
-## rBTC bridge
+## rBTC wrapper
 
 Although the Leap feature is perfect for user-defined assets in the ecosystem, the BTC itself is unfortunately not a part of RGB++ assets. We cannot make BTC move to Branch chain without bridge. 
 
-rBTC bridge is a wrapper to make BTC into a RGB++ compatible asset. Different from most of other multisig bridges, rBTC bridge is a capital efficient over-collateralized bridge. A set of smart contracts is running on RGB++ layer to monitor the operators. The operators' deposit will be slashed if they committed any kind of malicious actions. And the rBTC holders will get full compensation if the bridge operators collude to steal the locked BTC.
-
-Thus the rBTC bridge is a trustless and economic-secure bridge.
+rBTC wrapper makes BTC into a RGB++ compatible asset. Different from most of other multisig bridges, rBTC wrapper is a capital efficient over-collateralized bridge. A set of smart contracts is running on RGB++ layer to monitor the operators. The operators' deposit will be slashed if they committed any kind of malicious actions. And the rBTC holders will get full compensation if the bridge operators collude to steal the locked BTC. **The security model of rBTC wrapper doesn't rely on the 2/3 honest assumption. Thus the rBTC wrapper is a trustless and economic-secure bridge.**
 
 ## DA Layer
 
