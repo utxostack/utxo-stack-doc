@@ -160,7 +160,7 @@ const config = {
       tagName: 'meta',
       attributes: {
         name: 'og:title',
-        content: "UTXO Stack Docs",
+        content: "UTXO Stack: Bitcoin native extension",
       },
     },
     {
