@@ -124,8 +124,8 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Telegram',
-                href: 'https://t.me/utxo_stack',
+                label: 'Official website',
+                href: 'https://utxostack.network',
               },
               {
                 label: 'Twitter',
