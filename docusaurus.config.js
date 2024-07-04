@@ -195,7 +195,7 @@ const config = {
       tagName: 'meta',
       attributes: {
         name: 'twitter:url',
-        content: 'https://docs.utxostack.network'
+        content: 'https://x.com/utxostack'
       }
     }
   ]
