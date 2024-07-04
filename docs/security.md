@@ -43,4 +43,16 @@ The DA layer does not directly determine the overall security of the UTXO Stack.
 
 ## Conclusion
 
-Several components related to security in the UTXO Stack have been described. Attacks on the Branch chain and DA layer affect branch chain liveness but do not actually affect user assets. RGB++ can achieve Bitcoin-level security through PoW equivalence confirmations, while the challenger mechanism ensures that the overall security of the UTXO stack is similar to Rollup and the Lightning Network.
+Several components related to security in the UTXO Stack have been described. Attacks on the Branch chain and DA layer affect branch chain liveness but do not actually affect user assets. RGB++ can achieve Bitcoin-level security through PoW-equivalent confirmations, while the challenger mechanism ensures that the overall security of UTXO Stack is similar to Rollup and the Lightning Network.
+
+The following table offers a summary of some key security aspects of UTXO Stack:
+
+| Security Aspect | Analysis |
+| --- | --- |
+| **BTC Bridge** | FROST Signatures + Over-collateralization |
+| **Other Assets Cross-Chain** | Bridgeless Leap via RGB++ protocol |
+| **Censorship Resistance** | PoS Sequencer + Forced Withdrawal Mechanism |
+| **State Validation** | Client-side validation + Challenge via RISC-V Turing-complete VM |
+| **Re-organization Resistance** | Block Header on RGB++ Layer (PoW) |
+| **Data Availability (DA)** | Transaction data to DA Layer + Data Commitment on RGB++ Layer (PoW) |
+| **Asset Forced Escape** | Forced Asset Exit through Interactive Challenge Process |
