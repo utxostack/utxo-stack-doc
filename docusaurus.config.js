@@ -124,8 +124,8 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Telegram',
-                href: 'https://t.me/utxo_stack',
+                label: 'Official website',
+                href: 'https://utxostack.network',
               },
               {
                 label: 'Twitter',
@@ -176,6 +176,27 @@ const config = {
         name: 'og:image',
         content: "https://docs.utxostack.network/img/og-image.png",
       },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:image',
+        content: 'https://docs.utxostack.network/img/og-image.png'
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:url',
+        content: 'https://x.com/utxostack'
+      }
     }
   ]
 };
