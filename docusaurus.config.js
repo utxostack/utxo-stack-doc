@@ -176,6 +176,27 @@ const config = {
         name: 'og:image',
         content: "https://docs.utxostack.network/img/og-image.png",
       },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:image',
+        content: 'https://docs.utxostack.network/img/og-image.png'
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:url',
+        content: 'https://docs.utxostack.network'
+      }
     }
   ]
 };
