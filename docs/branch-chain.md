@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Branch Chain
 
-A Branch chain is a Layer-2 chain that actually runs smart contracts. It is characterized by high TPS (Transactions Per Second), low fees, fewer block-producing nodes, and a challenge-based security model.
+A branch chain is a Layer-2 chain that actually runs smart contracts. It is characterized by high TPS (Transactions Per Second), low fees, fewer block-producing nodes, and a challenge-based security model. The branch chain can be configured to allow cross-chain assets, such as Bitcoin, to be used as transaction fees, providing a consistent user experience for BTC scaling.
 
 ## Staking and Election
 
@@ -92,7 +92,3 @@ For cross-chain operations between Bitcoin and RGB++ compatible chains, please r
 * Branch chain challenge contract
 * DA layer verification contract
 * Extended xUDT contract - universal user defined token (uUDT)
-
-## Customizing Branch Chains
-
-The Branch chain can be configured to allow cross-chain assets to be used as transaction fees. For example, in a BTC scaling scenario, using Bitcoin as transaction fee can provide a consistent user experience.
