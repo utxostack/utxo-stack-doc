@@ -128,42 +128,42 @@ pub struct Message {
 
 ## Leap
 
-We use UTXO token as an example to describe the life cycle of cross chain assets.
+We use $UTXO token as an example to describe the life cycle of cross chain assets.
 
 ### RGB++ layer to Branch chain
 
 | Step | CKB | Branch | CKB Message Queue | Branch Message Queue | Description |
 |------|-----|--------|-----------|-------------|-------------|
-| 1 | UTXO token cell(lock=user, type=UTXO token) | - | - | - | User's assets on CKB |
-| 2 | Request cell(lock=request_lock, type=UTXO token) | - | - | - | Initiates cross-chain transfer request on CKB |
-| 3 | Custodian cell(lock=custodian_lock, type = UTXO token) | - | outbox: CKBToBranchMessage | - | Lock assets on CKB, enqueue CKBToBranchMesasge |
+| 1 | $UTXO token cell(lock=user, type=$UTXO) | - | - | - | User's assets on CKB |
+| 2 | Request cell(lock=request_lock, type=$UTXO) | - | - | - | Initiates cross-chain transfer request on CKB |
+| 3 | Custodian cell(lock=custodian_lock, type = $UTXO) | - | outbox: CKBToBranchMessage | - | Lock assets on CKB, enqueue CKBToBranchMesasge |
 | 4 | - | - | outbox: CKBToBranchMessage | inbox: CKBToBranchMessage | submit message to Branch |
-| 5 | - | Wrapped UTXO token cell(lock=user, type = WUTXO token) | outbox: CKBToBranchMessage | - | Mints assets on Branch |
+| 5 | - | Wrapped $UTXO token cell(lock=user, type = $WUTXO) | outbox: CKBToBranchMessage | - | Mints assets on Branch |
 | 6 | - | - | - | - | Acknowledges and remove processed request from CKB outbox |
 
 ### Branch chain to RGB++ layer
 
 | Step | CKB | Branch | CKB Message Queue | Branch Message Queue | Description |
 |------|-----|--------|-----------|-------------|-------------|
-| 1 | - | wrapped UTXO token cell(lock=user, type=WUTXO token) | - | - | User's assets on Branch |
-| 2 | - | Request cell(lock=request_lock, type=WUTXO token) | - | - | Initiates cross-chain transfer request on Branch |
+| 1 | - | wrapped $UTXO token cell(lock=user, type=$WUTXO) | - | - | User's assets on Branch |
+| 2 | - | Request cell(lock=request_lock, type=$WUTXO) | - | - | Initiates cross-chain transfer request on Branch |
 | 3 | - | - | - | outbox: BranchToCKBMessage | Burn assets on Branch, enqueue BranchToCKBMessage |
 | 4 | - | - | - | - | Commit outbox messages to Branch chain block header |
 | 5 | - | - | inbox: BranchToCKBMessage | - | Wait challenge period, then submit message to CKB inbox |
-| 6 | UTXO token cell(lock=user, type = UTXO token) | - | - | - | unlock UTXO token from custodian |
+| 6 | $UTXO token cell(lock=user, type = $UTXO) | - | - | - | unlock $UTXO token from custodian |
 
 ### Branch chain to Branch chain
 
 | Step | CKB | Branch A | Branch B | Branch A Message Queue | Branch B Message Queue | Description |
 |------|-----| -------- | -------- | ---------------------- | ---------------------- | ----------- | 
-| 1 | - | wrapped UTXO token cell(lock=user, type=WUTXO token) | - | - | - | User's assets on Branch A |
-| 2 | - | Request cell(lock=request_lock, type=WUTXO token) | - | - | - | Initiates cross-chain transfer request on Branch A |
+| 1 | - | wrapped $UTXO token cell(lock=user, type=$WUTXO) | - | - | - | User's assets on Branch A |
+| 2 | - | Request cell(lock=request_lock, type=$WUTXO) | - | - | - | Initiates cross-chain transfer request on Branch A |
 | 3 | - | - | - | outbox: BranchToBranchMessage | - | Burn assets on Branch A, enqueue BranchToBranchMessage |
 | 4 | - | - | - | - | - | Commit outbox messages to Branch A block header |
-| 5 | Custodian Transfer Cell(lock=custodian_transfer_lock, type=WUTXO token) | - | - | - | - | Branch A validarors unlock custodian, initiates custodian transfer on CKB |
-| 6 | Custodian Receipt Cell(lock=custodian_receipt_lock, type=WUTXO token) | - | - | - | - | Branch B validators accept custodian transfer, and init receipt cell |
-| 7 | - | - | wrapped UTXO token cell(lock=user, type=WUTXO token) | - | inbox: BranchToBranchMessage | Once Branch B create receipt cell, the assets is minted |
-| 8| Custodian cell(lock=custodian_lock,type=WUTXO token) | - | - | - | - | After challenge period, Branch B validators move assets from receipt cell to branch B custodian cell |
+| 5 | Custodian Transfer Cell(lock=custodian_transfer_lock, type=$WUTXO) | - | - | - | - | Branch A validarors unlock custodian, initiates custodian transfer on CKB |
+| 6 | Custodian Receipt Cell(lock=custodian_receipt_lock, type=$WUTXO) | - | - | - | - | Branch B validators accept custodian transfer, and init receipt cell |
+| 7 | - | - | wrapped $UTXO token cell(lock=user, type=$WUTXO) | - | inbox: BranchToBranchMessage | Once Branch B create receipt cell, the assets is minted |
+| 8| Custodian cell(lock=custodian_lock,type=$WUTXO) | - | - | - | - | After challenge period, Branch B validators move assets from receipt cell to branch B custodian cell |
 
 ## Conclusion
 
