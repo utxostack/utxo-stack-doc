@@ -2,46 +2,171 @@
 sidebar_position: 6
 ---
 
-# Bridgeless Leap
+# Bridgeless leap
 
-UTXO Stack enables seamless cross-chain interoperability by leveraging the RGB++ protocol[^1]'s isomorphic binding technology `assets leap`. This innovative approach eliminates the need for traditional cross-chain bridges, which can be centralized points of failure.
+UTXO Stack enables seamless cross-chain interoperability between RGB++ layer and branch chains, leveraging an isomorphic architecture. This innovative approach eliminates the need for traditional cross-chain bridges, which are often centralized points of failure. By doing so, it improves the efficiency of asset transfer, allowing tokens to move across branch chains without the need for extended locking periods.
 
-The key to UTXO Stack's cross-chain capabilities lies in the way it represents asset ownership. Every RGB++ asset/cell can be bound to a unique UTXO, even the UTXO is on another chain.
+## Branch chain token manager
 
-## Burn and Mint
+The Branch Chain Token Manager, referred to as the token manager, is a system contract embedded within every branch chain. It functions as the issuer of branch chain tokens. When assets are transferred from RGB++ layer to a branch chain, the original assets are locked on RGB++ layer, and the token manager issues a wrapped token on the branch chain. Conversely, when assets move from a branch chain back to RGB++ layer, the wrapped tokens are burned on the branch chain, and the original assets on RGB++ layer are unlocked.
 
-`CSV Burn` and `CSV Mint` are common cross-chain asset transfer methods in UTXO Stack.
-The extended asset contract `universal user defined token (uUDT)` supports two new operations:
+The underlying mechanism of the token manager is implemented via a cross-chain message queue. This queue is deployed on both RGB++ layer (as an application contract) and each branch chain (as a system contract), allowing the token manager system contract to access and send cross-chain messages through the queue.
 
-### `CSVBurn(X, src_chain_id, dst_chain_id, out_point)`
+### xUDT
 
-CSVBurn is executed on the source chain, and the uUDT contract verifies:
+Assets on the branch chain are represented by [xUDT][xUDT] tokens, with the token manager contract acting as the issuer.
 
-1. At least `X` amount of tokens have been burned in this transaction.   
-2. `src_chain_id` is the chain_id of the current chain.
-3. `dst_chain_id` and `out_point` refer to the `out_point` on another chain.
+## Cross chain message queue
 
-### `CSVMint(X, burn_tx)`
+On RGB++ layer:
+The cross-chain message queue is implemented as application contracts. This contract includes a branch chain light client, which tracks the branch chain's state, and a queue contract that maintains messages related to the branch chain.
 
-CSVMint is executed on the destination chain, and the uUDT contract verifies:
+On Branch Chains:
+The message queue is implemented as a system contract. This setup allows branch validators to read messages from RGB++ and submit cross-chain messages to the system contract. Branch chain users can also send messages to the system contract, and validators act as relayers by submitting these messages to RGB++ layer.
 
-1. The `burn_tx` exists on the `src_chain_id` and the time since it was packaged on the source chain has exceeded the `confirmation period`.
-    - For cross-chain direction from RGB++ Layer to Branch chain, the confirmation period is determined by the confirmation number on RGB++ Layer.
-    - For cross-chain direction from Branch chain to RGB++ Layer, the confirmation period is one challenge period.
-2. The contract verifies that `burn_tx.dst_chain_id` must be the current chain.
-3. The current transaction `inputs` must include the `out_point` specified in the related burn_tx.
-4. Mint X amount of tokens for the user to retrieve on the current chain.
+### Request cell
 
-## Cross-Chain Complete Flow
+Due to the nature of CKB cell model, every transaction consumes input cells and generates new output cells. If we naively use a cell to implement a queue, consuming and regenerating the queue cell each time a user pushes a message would prevent simultaneous message interactions. To address this, we introduce the concept of the request cell.
 
-The complete flow for the user to transfer tokens between UTXO Stack chains is as follows:
+When a user wants to interact with a message queue, they create a request cell instead of directly writing into the queue cell. This is achieved by replacing the lock field of their own cell:
 
-1. Call `CSVBurn` on the source chain to burn `X` amount of tokens and provide a `mint out_point` on the destination chain.
-2. Wait for confirmation period.
-3. Generate a CSV proof on the source chain.
-4. Call `CSVMint` on the destination chain and provide the `CSV proof`.
-5. The `mint out_point` must be used as one of the mint transaction's inputs, and X amount of tokens will be minted.
+Batch Request Lock Fields
+
+- **cancel_timeout**: Specifies the number of blocks after which the request can be canceled.
+- **owner_lock_hash**: Allows the request to be canceled with this lock hash.
+- **request**: Serialized byte structure containing the request details.
+
+By creating a request cell, users permit aggregators to collect and batch these requests. This approach allows multiple users to interact with the message queue simultaneously and efficiently.
+
+### RGB++ message queue
+
+The RGB++ side of the message queue is structured as follows:
+
+``` rust
+pub struct CKBMessageQueue {
+  // The merkle tree root of locked assets
+  locked_assets: Byte32,
+  // Send queue
+  outbox: Vec<CKBMessage>,
+  // Receive queue
+  inbox: Vec<BranchMessage>,
+}
+```
+
+Key operations include:
+
+* PushRequest: Submit cross chain transfer message.
+* Ack: Confirm messages have been processed by providing branch chain block headers and proofs.
+* HandleRecv: Handle the receive queue.
+
+### Branch message queue
+
+The branch chain side of the message queue is structured as follows:
+
+``` rust
+pub struct BranchMessageQueue {
+  // The merkle tree root of locked assets
+  locked_assets: Byte32,
+  // Send queue
+  outbox: Vec<Bytes(BranchMessage)>,
+  // Receive queue
+  inbox: Vec<CKBMessage>,
+}
+```
+
+Key operations include:
+
+* PushRequest: Submit cross chain transfer message.
+* HandleRecv: Handle the receive queue.
+
+
+### Messages
+
+``` rust
+/// CKB messages
+pub enum CKBMessage {
+  Branch(CKBToBranchRequest)
+}
+
+pub struct CKBToBranchRequest {
+  request_id: Bytes,
+  // Target chain ID
+  target_chain_id: ChainId,
+  message: Message,
+}
+
+// Branch chain messages
+pub enum BranchMessage {
+  CKB(BranchToCKBRequest)
+  Branch(BranchToBranchRequest)
+}
+
+pub struct BranchToCKBRequest {
+  request_id: Bytes,
+  // Initial chain ID
+  initial_chain_id: ChainId,
+  message: Message,
+}
+
+pub struct BranchToBranchRequest {
+  request_id: Bytes,
+  // Initial chain ID
+  initial_chain_id: ChainId,
+  // Target chain ID
+  target_chain_id: ChainId,
+  message: Message,
+}
+
+
+pub struct Message {
+  owner_lock_hash: Byte32,
+  amount: u128,
+  // Asset type
+  asset_type: Byte32,
+}
+```
+
+## Leap
+
+We use $UTXO token as an example to describe the life cycle of cross chain assets.
+
+### RGB++ layer to Branch chain
+
+| Step | CKB | Branch | CKB Message Queue | Branch Message Queue | Description |
+|------|-----|--------|-----------|-------------|-------------|
+| 1 | $UTXO token cell(lock=user, type=$UTXO) | - | - | - | User's assets on CKB |
+| 2 | Request cell(lock=request_lock, type=$UTXO) | - | - | - | Initiates cross-chain transfer request on CKB |
+| 3 | Custodian cell(lock=custodian_lock, type = $UTXO) | - | outbox: CKBToBranchMessage | - | Lock assets on CKB, enqueue CKBToBranchMesasge |
+| 4 | - | - | outbox: CKBToBranchMessage | inbox: CKBToBranchMessage | submit message to Branch |
+| 5 | - | Wrapped $UTXO token cell(lock=user, type = $WUTXO) | outbox: CKBToBranchMessage | - | Mints assets on Branch |
+| 6 | - | - | - | - | Acknowledges and remove processed request from CKB outbox |
+
+### Branch chain to RGB++ layer
+
+| Step | CKB | Branch | CKB Message Queue | Branch Message Queue | Description |
+|------|-----|--------|-----------|-------------|-------------|
+| 1 | - | wrapped $UTXO token cell(lock=user, type=$WUTXO) | - | - | User's assets on Branch |
+| 2 | - | Request cell(lock=request_lock, type=$WUTXO) | - | - | Initiates cross-chain transfer request on Branch |
+| 3 | - | - | - | outbox: BranchToCKBMessage | Burn assets on Branch, enqueue BranchToCKBMessage |
+| 4 | - | - | - | - | Commit outbox messages to Branch chain block header |
+| 5 | - | - | inbox: BranchToCKBMessage | - | Wait challenge period, then submit message to CKB inbox |
+| 6 | $UTXO token cell(lock=user, type = $UTXO) | - | - | - | unlock $UTXO token from custodian |
+
+### Branch chain to Branch chain
+
+| Step | CKB | Branch A | Branch B | Branch A Message Queue | Branch B Message Queue | Description |
+|------|-----| -------- | -------- | ---------------------- | ---------------------- | ----------- | 
+| 1 | - | wrapped $UTXO token cell(lock=user, type=$WUTXO) | - | - | - | User's assets on Branch A |
+| 2 | - | Request cell(lock=request_lock, type=$WUTXO) | - | - | - | Initiates cross-chain transfer request on Branch A |
+| 3 | - | - | - | outbox: BranchToBranchMessage | - | Burn assets on Branch A, enqueue BranchToBranchMessage |
+| 4 | - | - | - | - | - | Commit outbox messages to Branch A block header |
+| 5 | Custodian Transfer Cell(lock=custodian_transfer_lock, type=$WUTXO) | - | - | - | - | Branch A validarors unlock custodian, initiates custodian transfer on CKB |
+| 6 | Custodian Receipt Cell(lock=custodian_receipt_lock, type=$WUTXO) | - | - | - | - | Branch B validators accept custodian transfer, and init receipt cell |
+| 7 | - | - | wrapped $UTXO token cell(lock=user, type=$WUTXO) | - | inbox: BranchToBranchMessage | Once Branch B create receipt cell, the assets is minted |
+| 8| Custodian cell(lock=custodian_lock,type=$WUTXO) | - | - | - | - | After challenge period, Branch B validators move assets from receipt cell to branch B custodian cell |
+
+## Conclusion
 
 By enabling seamless cross-chain interoperability, UTXO Stack empowers developers to build applications that can leverage the strengths of different UTXO blockchain networks. This opens up new possibilities for asset exchange, cross-chain lending, and other decentralized finance (DeFi) applications built on top of Bitcoin's robust security and decentralization.
 
-[^1]: https://github.com/ckb-cell/RGBPlusPlus-design/blob/main/docs/light-paper-en.md
+[xUDT]: https://github.com/nervosnetwork/rfcs/blob/53b2c5eb7dd82968327999534be74d7975865b9d/rfcs/0052-extensible-udt/0052-extensible-udt.md
