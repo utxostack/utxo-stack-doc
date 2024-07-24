@@ -19,7 +19,7 @@ Assets on the branch chain are represented by [xUDT][xUDT] tokens, with the toke
 ## Cross chain message queue
 
 On RGB++ layer:
-The cross-chain message queue is implemented as user contracts. This contract includes a branch chain light client, which tracks the branch chain's state, and a queue contract that maintains messages related to the branch chain.
+The cross-chain message queue is implemented as application contracts. This contract includes a branch chain light client, which tracks the branch chain's state, and a queue contract that maintains messages related to the branch chain.
 
 On Branch Chains:
 The message queue is implemented as a system contract. This setup allows branch validators to read messages from RGB++ and submit cross-chain messages to the system contract. Branch chain users can also send messages to the system contract, and validators act as relayers by submitting these messages to RGB++ layer.
