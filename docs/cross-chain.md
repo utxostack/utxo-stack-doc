@@ -4,13 +4,13 @@ sidebar_position: 6
 
 # Bridgeless leap
 
-UTXO Stack enables seamless cross-chain interoperability between RGB++ layer and branch chains, leveraging the isomorphism architecture. This innovative approach eliminates the need for traditional cross-chain bridges, which are often centralized points of failure, By doing so, it improve the efficiency of asset transfer, allowing tokens to move across branch chains without the need for extended locking periods.
+UTXO Stack enables seamless cross-chain interoperability between RGB++ layer and branch chains, leveraging an isomorphic architecture. This innovative approach eliminates the need for traditional cross-chain bridges, which are often centralized points of failure. By doing so, it improves the efficiency of asset transfer, allowing tokens to move across branch chains without the need for extended locking periods.
 
 ## Branch chain token manager
 
-The Branch Chain Token Manager, referred to as the token manager, is a system contract embedded within every branch chain. It functions as the issuer of branch chain tokens. When assets are transferred from RGB++ to a branch chain, the original assets are locked on RGB++, and the token manager issue a wrapped token on the branch chain. Conversely, when assets move from a branch chain back to RGB++, the wrapped tokens are burned on the branch chain, and the original assets on RGB++ are unlocked.
+The Branch Chain Token Manager, referred to as the token manager, is a system contract embedded within every branch chain. It functions as the issuer of branch chain tokens. When assets are transferred from RGB++ layer to a branch chain, the original assets are locked on RGB++ layer, and the token manager issues a wrapped token on the branch chain. Conversely, when assets move from a branch chain back to RGB++ layer, the wrapped tokens are burned on the branch chain, and the original assets on RGB++ layer are unlocked.
 
-The underlying mechanism of the token manager is implemented via a cross-chain message queue. This queue is deployed on both RGB++ (as an user contract) and each branch chain (as a system contract), allowing the token manager system contract to access and send cross-chain messages through the queue.
+The underlying mechanism of the token manager is implemented via a cross-chain message queue. This queue is deployed on both RGB++ layer (as an application contract) and each branch chain (as a system contract), allowing the token manager system contract to access and send cross-chain messages through the queue.
 
 ### xUDT
 
@@ -18,11 +18,11 @@ Assets on the branch chain are represented by [xUDT][xUDT] tokens, with the toke
 
 ## Cross chain message queue
 
-On RGB++:
-The cross-chain message queue is implemented as user contracts. This contract includes a branch chain light client, which tracks the branch chain's state, and a queue contract that maintains messages sent to the branch chain.
+On RGB++ layer:
+The cross-chain message queue is implemented as user contracts. This contract includes a branch chain light client, which tracks the branch chain's state, and a queue contract that maintains messages related to the branch chain.
 
 On Branch Chains:
-The message queue is implemented as a system contract. This setup allows branch validators to read messages from RGB++ and submit cross-chain messages to the system contract. Branch chain users can also send messages to the system contract, and validators act as relayers by submitting these messages to RGB++.
+The message queue is implemented as a system contract. This setup allows branch validators to read messages from RGB++ and submit cross-chain messages to the system contract. Branch chain users can also send messages to the system contract, and validators act as relayers by submitting these messages to RGB++ layer.
 
 ### Request cell
 
@@ -36,7 +36,7 @@ Batch Request Lock Fields
 - **owner_lock_hash**: Allows the request to be canceled with this lock hash.
 - **request**: Serialized byte structure containing the request details.
 
-By creating request cell, users permit aggregators to collect and batch these requests. This approach allows multiple users to interact with the message queue simultaneously and efficiently.
+By creating a request cell, users permit aggregators to collect and batch these requests. This approach allows multiple users to interact with the message queue simultaneously and efficiently.
 
 ### RGB++ message queue
 
@@ -56,8 +56,8 @@ pub struct CKBMessageQueue {
 Key operations include:
 
 * PushRequest: Submit cross chain transfer message.
-* Ack: Confirms messages have been processed by providing branch chain block headers and proofs.
-* HandleRecv: Handles the receive queue.
+* Ack: Confirm messages have been processed by providing branch chain block headers and proofs.
+* HandleRecv: Handle the receive queue.
 
 ### Branch message queue
 
@@ -77,7 +77,7 @@ pub struct BranchMessageQueue {
 Key operations include:
 
 * PushRequest: Submit cross chain transfer message.
-* HandleRecv: Handles the receive queue.
+* HandleRecv: Handle the receive queue.
 
 
 ### Messages
@@ -130,7 +130,7 @@ pub struct Message {
 
 We use UTXO token as an example to describe the life cycle of cross chain assets.
 
-### RGB++ to Branch chain
+### RGB++ layer to Branch chain
 
 | Step | CKB | Branch | CKB Message Queue | Branch Message Queue | Description |
 |------|-----|--------|-----------|-------------|-------------|
@@ -141,7 +141,7 @@ We use UTXO token as an example to describe the life cycle of cross chain assets
 | 5 | - | Wrapped UTXO token cell(lock=user, type = WUTXO token) | outbox: CKBToBranchMessage | - | Mints assets on Branch |
 | 6 | - | - | - | - | Acknowledges and remove processed request from CKB outbox |
 
-### Branch chain to RGB++
+### Branch chain to RGB++ layer
 
 | Step | CKB | Branch | CKB Message Queue | Branch Message Queue | Description |
 |------|-----|--------|-----------|-------------|-------------|
