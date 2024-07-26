@@ -6,6 +6,9 @@ sidebar_position: 6
 
 UTXO Stack enables seamless cross-chain interoperability between RGB++ layer and branch chains, leveraging an isomorphic architecture. This innovative approach eliminates the need for traditional cross-chain bridges, which are often centralized points of failure. By doing so, it improves the efficiency of asset transfer, allowing tokens to move across branch chains without the need for extended locking periods.
 
+
+![image](../static/img/cross-chain/overall.jpg)
+
 ## Branch chain token manager
 
 The Branch Chain Token Manager, referred to as the token manager, is a system contract embedded within every branch chain. It functions as the issuer of branch chain tokens. When assets are transferred from RGB++ layer to a branch chain, the original assets are locked on RGB++ layer, and the token manager issues a wrapped token on the branch chain. Conversely, when assets move from a branch chain back to RGB++ layer, the wrapped tokens are burned on the branch chain, and the original assets on RGB++ layer are unlocked.
